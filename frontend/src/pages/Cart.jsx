@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../context/CartContext';
 import { ToastContext } from '../context/ToastContext';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
-import { Trash2, ArrowRight, CreditCard, Truck, Lock, ShieldCheck } from 'lucide-react';
+import { Trash2, ArrowRight, CreditCard, Truck, Lock, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 
@@ -18,15 +18,13 @@ const Cart = () => {
     number: '', name: '', expiry: '', cvv: ''
   });
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
 
   const handleCheckout = async () => {
-    if (!user) {
-      showToast('Please login to complete your purchase', 'error');
-      navigate('/login');
-      return;
-    }
-
     if (paymentMethod === 'Credit / Debit Card') {
       if (!cardDetails.number || !cardDetails.name || !cardDetails.expiry || !cardDetails.cvv) {
         showToast('Please complete all credit/debit card details', 'error');
@@ -45,7 +43,7 @@ const Cart = () => {
         totalPrice: Number(total),
         paymentMethod
       }, {
-        headers: { Authorization: `Bearer ${user.token}` }
+        headers: { Authorization: user ? `Bearer ${user.token}` : 'Bearer guest' }
       });
 
       showToast(`Payment via ${paymentMethod} successful! Redirecting...`);
@@ -60,6 +58,9 @@ const Cart = () => {
   return (
     <div style={{ maxWidth: '1000px', margin: '4rem auto' }}>
       <SEO title="Shopping Cart" />
+      <Link to="/products" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+        <ArrowLeft size={18} /> Continue Shopping
+      </Link>
       <h1 style={{ marginBottom: '4rem', fontSize: '2.5rem' }}>Your Selections</h1>
       
       {cartItems.length === 0 ? (

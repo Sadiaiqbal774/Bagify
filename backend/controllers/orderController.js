@@ -14,8 +14,8 @@ exports.addOrderItems = async (req, res) => {
   try {
     const orderStr = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
     const order = dbService.create('orders', {
-      user: req.user.id || req.user._id,
-      userEmail: req.user.email,
+      user: req.user ? (req.user.id || req.user._id || 'guest') : ('guest_' + Date.now()),
+      userEmail: req.user ? (req.user.email || 'guest@bagify.com') : 'guest@bagify.com',
       orderItems,
       totalPrice,
       paymentMethod: paymentMethod || 'Credit / Debit Card',

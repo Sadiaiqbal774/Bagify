@@ -177,9 +177,9 @@
       "brand": "Bagify Urban",
       "rating": 4.6,
       "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
-      "stock": 17,
+      "stock": 1,
       "slug": "nomad-canvas-rucksack",
-      "updatedAt": "2026-04-22T05:51:23.548Z"
+      "updatedAt": "2026-05-17T18:54:35.889Z"
     },
     {
       "id": "7",
@@ -597,6 +597,67 @@
       "_id": "1779041357466",
       "id": "1779041357466",
       "updatedAt": "2026-05-17T18:09:17.466Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "7",
+          "name": "Capri Leather Clutch",
+          "price": 81,
+          "description": "Sleek and minimalist, perfect for evening artifacts.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=800",
+          "stock": 14,
+          "slug": "capri-leather-clutch",
+          "updatedAt": "2026-05-17T16:41:58.762Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 81,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-17T18:35:08.969Z",
+      "_id": "1779042908969",
+      "id": "1779042908969",
+      "updatedAt": "2026-05-17T18:35:08.969Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "5",
+          "name": "Sahara Suede Crossbody",
+          "price": 195,
+          "description": "Soft Italian suede with hand-brushed brass accents.",
+          "category": "Handbags",
+          "brand": "Bagify Elite",
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&q=80&w=800",
+          "stock": 10,
+          "slug": "sahara-suede-crossbody",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 195,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-17T18:53:53.140Z",
+      "_id": "1779044033140",
+      "id": "1779044033140",
+      "updatedAt": "2026-05-17T18:53:53.140Z"
     }
   ],
   "faqs": [

@@ -13,15 +13,19 @@ const protect = async (req, res, next) => {
       if (user) {
         const { password, ...userWithoutPassword } = user;
         req.user = userWithoutPassword;
+      } else {
+        req.user = { id: decoded.id || 'guest_' + Date.now(), email: 'guest@bagify.com', role: 'customer' };
       }
-      next();
+      return next();
     } catch (error) {
-      res.status(401).json({ message: 'Not authorized, token failed' });
+      req.user = { id: 'guest_' + Date.now(), email: 'guest@bagify.com', role: 'customer' };
+      return next();
     }
   }
 
   if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    req.user = { id: 'guest_' + Date.now(), email: 'guest@bagify.com', role: 'customer' };
+    return next();
   }
 };
 
