@@ -46,9 +46,9 @@ const ProductDetail = () => {
         <ArrowLeft size={18} /> Back to Collection
       </Link>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8rem', alignItems: 'start' }}>
+      <div className="product-detail-grid">
         {/* Left: Image */}
-        <div style={{ background: '#fcfcfc', borderRadius: 'var(--border-radius-lg)', overflow: 'hidden', height: '800px' }}>
+        <div className="product-detail-img-box">
           <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
 
@@ -74,7 +74,7 @@ const ProductDetail = () => {
                Secure this Piece
             </button>
             
-            <div style={{ marginTop: '4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+            <div className="home-collections-grid" style={{ marginTop: '4rem' }}>
                <div>
                   <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '1rem', letterSpacing: '0.1em' }}>Express Shipping</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-tertiary)' }}>Complimentary delivery on orders above $150.</p>

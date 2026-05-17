@@ -91,7 +91,7 @@ const Products = () => {
         </div>
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '5rem 3rem' }}>
+      <div className="products-grid-container">
         {loading ? (
           Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
         ) : (
@@ -103,7 +103,7 @@ const Products = () => {
             >
               <div style={{ position: 'relative', marginBottom: '2.5rem' }}>
                  <Link to={`/product/${p.id || p._id}`}>
-                   <div className="product-card-img-wrapper" style={{ height: '480px', background: '#fcfcfc', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', position: 'relative' }}>
+                   <div className="product-card-img-wrapper">
                       <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <div className="quick-look-overlay">
                          <span className="quick-look-btn">Quick View</span>

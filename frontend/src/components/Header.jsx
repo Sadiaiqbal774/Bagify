@@ -129,9 +129,16 @@ const Header = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
+           <button 
+             onClick={() => setIsMobileMenuOpen(false)}
+             style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)' }}
+           >
+             <X size={32} />
+           </button>
            <nav className="mobile-nav">
              <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)}>Collection</Link>
+             <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>Our Story</Link>
              <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
              <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)}>Bag ({cartCount})</Link>
            </nav>

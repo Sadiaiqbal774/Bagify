@@ -42,7 +42,7 @@ const About = () => {
       {/* Philosophy Section */}
       <section style={{ padding: '10rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8rem', alignItems: 'center' }}>
+          <div className="about-philosophy-grid">
             <div className="reveal" ref={el => revealRefs.current[2] = el}>
               <h2 style={{ fontSize: '3rem', marginBottom: '2.5rem' }}>Born from a Passion for Perfection</h2>
               <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '2rem' }}>
@@ -72,7 +72,7 @@ const About = () => {
             <div style={{ width: '80px', height: '2px', background: 'var(--accent-gold)', margin: '2rem auto' }}></div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4rem' }}>
+          <div className="about-pillars-grid">
             {[
               { icon: <Award size={40} />, title: "Exquisite Craft", desc: "Meticulously stitched by master artisans with decades of experience." },
               { icon: <ShieldCheck size={40} />, title: "Lifetime Promise", desc: "Designed to endure. We stand by the longevity of every artifact we create." },

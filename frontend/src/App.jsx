@@ -17,6 +17,7 @@ import About from './pages/About';
 
 // Admin Pages
 import AdminDashboard from './pages/AdminDashboard';
+import AdminAnalytics from './pages/AdminAnalytics';
 import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import AdminUsers from './pages/AdminUsers';
@@ -50,6 +51,7 @@ function App() {
         {user && user.role === 'admin' && (
           <Route path="/dashboard" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
             <Route path="products" element={<AdminProducts />} />
             <Route path="products/create" element={<AdminProductForm />} />
             <Route path="products/edit/:id" element={<AdminProductForm />} />

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { TrendingUp, ShoppingCart, Package, Users, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, ShoppingCart, Package, Users, ArrowUpRight, Sparkles, Brain } from 'lucide-react';
 
 const stats = [
   { label: 'Total Revenue', value: '$24,500', change: '+12.4%', icon: <TrendingUp size={22} />, color: '#c5a059' },
@@ -34,7 +35,28 @@ const AdminDashboard = () => {
             Welcome back, Admin. Here's what's happening.
           </p>
         </div>
-        <button className="admin-action-btn">+ New Product</button>
+        <Link to="/dashboard/products/create" className="admin-action-btn" style={{ textDecoration: 'none' }}>+ New Product</Link>
+      </div>
+
+      {/* Embedded AI Quick Insight Banner */}
+      <div className="ai-insights-hero-banner" style={{ padding: '1.8rem 2.5rem', marginBottom: '2.5rem' }}>
+        <div className="ai-banner-content" style={{ maxWidth: '75%' }}>
+          <div className="ai-banner-icon" style={{ width: '48px', height: '48px' }}>
+            <Sparkles size={24} />
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, background: 'var(--accent-gold)', color: '#000', padding: '0.2rem 0.6rem', borderRadius: '4px', textTransform: 'uppercase' }}>Gemini AI Active</span>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'white', margin: 0 }}>Autonomous Inventory Engine Running</h3>
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '0.4rem', marginBottom: 0 }}>
+              AI models predict Handbags demand surge (+28.4%) & 1 critical out-of-stock risk (Arctic Voyager).
+            </p>
+          </div>
+        </div>
+        <Link to="/dashboard/analytics" style={{ background: 'white', color: '#121216', padding: '0.8rem 1.4rem', borderRadius: '12px', fontWeight: 700, fontSize: '0.88rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 15px rgba(255,255,255,0.2)' }}>
+          <Brain size={16} /> Open AI Center →
+        </Link>
       </div>
 
       {/* Stat Cards */}

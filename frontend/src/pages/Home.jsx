@@ -116,7 +116,7 @@ const Home = () => {
           <div style={{ width: '60px', height: '2px', background: 'var(--accent-gold)', margin: '1.5rem auto' }}></div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+        <div className="home-collections-grid">
           <div className="product-card-premium" style={{ position: 'relative', height: '500px', overflow: 'hidden' }}>
              <img src="/images/backpack.png" alt="Backpacks" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
              <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', color: 'white' }}>
@@ -148,11 +148,11 @@ const Home = () => {
             <Link to="/products" className="nav-link" style={{ fontSize: '0.9rem' }}>View Entire Collection →</Link>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+          <div className="home-trending-grid">
             {featuredProducts.map((p, idx) => (
               <div key={p.id || p._id} className="product-card-premium">
                 <Link to={`/product/${p.id || p._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div className="product-card-img-wrapper" style={{ height: '450px', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', background: '#f9f9f9', marginBottom: '2rem' }}>
+                  <div className="product-card-img-wrapper" style={{ marginBottom: '2rem' }}>
                      <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ padding: '0 0.5rem' }}>

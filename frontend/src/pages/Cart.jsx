@@ -52,7 +52,7 @@ const Cart = () => {
           <Link to="/products" className="btn">Shop Now</Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '4rem' }}>
+        <div className="cart-grid">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {cartItems.map(item => (
               <div key={item.id || item._id} style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', paddingBottom: '2rem', alignItems: 'center', gap: '2rem' }}>

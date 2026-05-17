@@ -1,10 +1,11 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, Bell, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, Bell, TrendingUp, Brain } from 'lucide-react';
 import CustomCursor from './CustomCursor';
 
 const navItems = [
   { to: '/dashboard', icon: <LayoutDashboard size={18} />, label: 'Overview' },
+  { to: '/dashboard/analytics', icon: <Brain size={18} />, label: 'AI Analytics' },
   { to: '/dashboard/products', icon: <Package size={18} />, label: 'Products' },
   { to: '/dashboard/orders', icon: <ShoppingCart size={18} />, label: 'Orders' },
   { to: '/dashboard/users', icon: <Users size={18} />, label: 'Users' },
