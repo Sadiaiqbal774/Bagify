@@ -23,7 +23,7 @@ const Profile = () => {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+      <div className="profile-grid">
         {/* Wishlist Section */}
         <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-md)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>

@@ -71,20 +71,19 @@ const Cart = () => {
         <div className="cart-grid">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {cartItems.map(item => (
-              <div key={item.id || item._id} style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', paddingBottom: '2rem', alignItems: 'center', gap: '2rem' }}>
-                <div style={{ width: '120px', height: '140px', background: '#f5f5f5', overflow: 'hidden', borderRadius: '8px', flexShrink: 0 }}>
+              <div key={item.id || item._id} className="cart-item-row">
+                <div className="cart-item-img">
                     <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div className="cart-item-info">
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem', fontWeight: 700 }}>{item.name}</h4>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>${item.price} • Qty: {item.qty}</p>
                 </div>
-                <div style={{ fontWeight: 800, fontSize: '1.25rem' }}>${(item.price * item.qty).toFixed(2)}</div>
+                <div className="cart-item-total">${(item.price * item.qty).toFixed(2)}</div>
                 <button 
+                  className="cart-item-del-btn"
                   onClick={() => { removeFromCart(item.id || item._id); showToast('Removed from cart'); }} 
-                  style={{ background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', transition: '0.3s' }}
-                  onMouseOver={(e) => e.currentTarget.style.color = '#ef4444'}
-                  onMouseOut={(e) => e.currentTarget.style.color = '#ccc'}
+                  title="Remove from cart"
                 >
                   <Trash2 size={18} />
                 </button>
