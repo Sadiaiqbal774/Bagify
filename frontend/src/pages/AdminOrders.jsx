@@ -50,13 +50,14 @@ const AdminOrders = () => {
         <h1>Order Directory</h1>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: '1rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
+      <div className="admin-table-responsive" style={{ background: '#fff', borderRadius: '1rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead style={{ background: 'var(--bg-primary)', textAlign: 'left' }}>
             <tr>
               <th style={{ padding: '1rem' }}>ORDER ID</th>
               <th style={{ padding: '1rem' }}>EMAIL</th>
               <th style={{ padding: '1rem' }}>TOTAL</th>
+              <th style={{ padding: '1rem' }}>PAYMENT</th>
               <th style={{ padding: '1rem' }}>STATUS</th>
               <th style={{ padding: '1rem' }}>ACTIONS</th>
             </tr>
@@ -67,6 +68,11 @@ const AdminOrders = () => {
                 <td style={{ padding: '1.5rem 1rem', fontWeight: 600 }}>{o.id || o._id}</td>
                 <td style={{ padding: '1.5rem 1rem' }}>{o.userEmail}</td>
                 <td style={{ padding: '1.5rem 1rem' }}>${o.totalPrice || o.total}</td>
+                <td style={{ padding: '1.5rem 1rem' }}>
+                  <span style={{ padding: '0.3rem 0.8rem', background: 'var(--bg-tertiary)', color: 'var(--text-primary)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700 }}>
+                    {o.paymentMethod || 'Credit / Debit Card'}
+                  </span>
+                </td>
                 <td style={{ padding: '1.5rem 1rem' }}>
                   <select 
                     value={o.status} 
@@ -85,7 +91,7 @@ const AdminOrders = () => {
             ))}
             {orders.length === 0 && (
               <tr>
-                <td colSpan="5" style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>No orders found.</td>
+                <td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>No orders found.</td>
               </tr>
             )}
           </tbody>

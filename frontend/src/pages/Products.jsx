@@ -3,7 +3,7 @@ import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import { ToastContext } from '../context/ToastContext';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Heart, Star, Filter, ArrowUpDown } from 'lucide-react';
+import { ShoppingBag, Heart, Star, Filter, ArrowUpDown, Grid, LayoutGrid, Square } from 'lucide-react';
 import SEO from '../components/SEO';
 import { SkeletonCard } from '../components/Skeleton';
 
@@ -13,6 +13,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
+  const [gridMode, setGridMode] = useState('responsive');
   
   const { addToCart, toggleWishlist, wishlist, isCartOpen } = useContext(CartContext);
   const { showToast } = useContext(ToastContext);
@@ -80,18 +81,33 @@ const Products = () => {
             </button>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <ArrowUpDown size={16} />
-          <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="newest">Newest Arrivals</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Top Rated</option>
-          </select>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <ArrowUpDown size={16} />
+            <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="newest">Newest Arrivals</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+
+          {/* View Switcher Toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', background: 'var(--bg-tertiary)', padding: '0.2rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+            <button onClick={() => setGridMode('col-1')} className={`view-btn ${gridMode === 'col-1' ? 'active' : ''}`} title="1 Column View">
+              <Square size={16} />
+            </button>
+            <button onClick={() => setGridMode('col-2')} className={`view-btn ${gridMode === 'col-2' ? 'active' : ''}`} title="2 Column View">
+              <Grid size={16} />
+            </button>
+            <button onClick={() => setGridMode('responsive')} className={`view-btn ${gridMode === 'responsive' ? 'active' : ''}`} title="Responsive Grid">
+              <LayoutGrid size={16} />
+            </button>
+          </div>
         </div>
       </div>
       
-      <div className="products-grid-container">
+      <div className={`products-grid-container ${gridMode !== 'responsive' ? gridMode : ''}`}>
         {loading ? (
           Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
         ) : (

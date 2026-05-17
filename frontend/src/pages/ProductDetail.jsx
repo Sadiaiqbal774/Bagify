@@ -3,13 +3,14 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import { ToastContext } from '../context/ToastContext';
-import { ShoppingCart, ArrowLeft, Star, Tablet } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Star, Tablet, Sparkles, ThumbsUp } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [aiReviewSummary, setAiReviewSummary] = useState(null);
   const { addToCart } = useContext(CartContext);
   const { showToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -20,6 +21,16 @@ const ProductDetail = () => {
         const { data } = await axios.get(`/api/products`);
         const found = data.find(p => String(p.id) === String(id) || String(p._id) === String(id));
         setProduct(found);
+        
+        // Fetch AI Review Sentiment Summary
+        try {
+          const res = await axios.get(`http://localhost:5000/api/ai/review-summary/${id}`);
+          if (res.data && res.data.success) {
+            setAiReviewSummary(res.data);
+          }
+        } catch (aiErr) {
+          console.error("AI summary not available:", aiErr);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -57,13 +68,33 @@ const ProductDetail = () => {
           <span style={{ textTransform: 'uppercase', letterSpacing: '0.3em', fontSize: '0.8rem', color: 'var(--accent-gold)', fontWeight: 700 }}>{product.brand}</span>
           <h1 style={{ fontSize: '4.5rem', margin: '2rem 0', lineHeight: 1, fontWeight: 800 }}>{product.name}</h1>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '4rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '3rem' }}>
             <span style={{ fontSize: '3rem', fontWeight: 500 }}>${product.price}</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', background: 'var(--bg-tertiary)', borderRadius: '50px' }}>
               <Star size={18} fill="var(--accent-gold)" color="var(--accent-gold)" />
               <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{product.rating}</span>
             </div>
           </div>
+
+          {/* AI Review Summary Box */}
+          {aiReviewSummary && (
+            <div className="ai-review-summary-box">
+               <div className="ai-review-header">
+                  <div className="ai-review-badge">
+                     <Sparkles size={14} /> {aiReviewSummary.aiModel}
+                  </div>
+                  <div className="ai-review-tag">
+                     <ThumbsUp size={14} /> {aiReviewSummary.positiveScore}% Positive Sentiment
+                  </div>
+               </div>
+               <p className="ai-review-text">
+                  "{aiReviewSummary.summaryText}"
+               </p>
+               <div style={{ marginTop: '1.2rem', fontSize: '0.8rem', color: 'var(--accent-gold)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  AI Key Highlight: {aiReviewSummary.highlightTag}
+               </div>
+            </div>
+          )}
 
           <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '5rem', fontWeight: 300 }}>
             {product.description}

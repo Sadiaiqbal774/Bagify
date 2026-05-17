@@ -486,6 +486,80 @@
       "_id": "1779036521305",
       "id": "1779036521305",
       "updatedAt": "2026-05-17T16:48:41.305Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "price": 215,
+          "description": "Elegant deep burgundy leather with gold-tone hardware.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.9,
+          "image": "/images/item2.png",
+          "stock": 9,
+          "slug": "parisienne-burgundy-handbag",
+          "metaTitle": "Parisienne Burgundy Handbag | Designer",
+          "metaDescription": "Luxury burgundy leather handbag.",
+          "metaKeywords": [
+            "handbag",
+            "burgundy"
+          ],
+          "updatedAt": "2026-05-17T16:41:51.450Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 215,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-17T17:23:08.735Z",
+      "_id": "1779038588735",
+      "id": "1779038588735",
+      "updatedAt": "2026-05-17T17:23:08.735Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "price": 215,
+          "description": "Elegant deep burgundy leather with gold-tone hardware.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.9,
+          "image": "/images/item2.png",
+          "stock": 9,
+          "slug": "parisienne-burgundy-handbag",
+          "metaTitle": "Parisienne Burgundy Handbag | Designer",
+          "metaDescription": "Luxury burgundy leather handbag.",
+          "metaKeywords": [
+            "handbag",
+            "burgundy"
+          ],
+          "updatedAt": "2026-05-17T16:41:51.450Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 215,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-17T18:05:32.303Z",
+      "_id": "1779041132303",
+      "id": "1779041132303",
+      "updatedAt": "2026-05-17T18:05:32.303Z"
     }
   ],
   "faqs": [

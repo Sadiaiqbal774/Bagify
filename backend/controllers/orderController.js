@@ -4,7 +4,7 @@ const dbService = require('../services/dbService');
 // @route   POST /api/orders
 // @access  Private
 exports.addOrderItems = async (req, res) => {
-  const { orderItems, totalPrice } = req.body;
+  const { orderItems, totalPrice, paymentMethod } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400).json({ message: 'No order items' });
@@ -18,6 +18,7 @@ exports.addOrderItems = async (req, res) => {
       userEmail: req.user.email,
       orderItems,
       totalPrice,
+      paymentMethod: paymentMethod || 'Credit / Debit Card',
       status: 'Processing',
       timeline: ['Ordered', 'Processing'],
       lastUpdate: 'We have received your order and are preparing it for shipment.',

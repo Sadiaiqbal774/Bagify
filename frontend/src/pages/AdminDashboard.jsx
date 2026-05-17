@@ -84,32 +84,34 @@ const AdminDashboard = () => {
           <h2 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Recent Orders</h2>
           <button className="admin-view-all-btn">View All →</button>
         </div>
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Amount</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recentOrders.map((order) => (
-              <tr key={order.id}>
-                <td style={{ fontWeight: 600, color: 'var(--accent-gold)' }}>{order.id}</td>
-                <td>{order.customer}</td>
-                <td style={{ color: 'var(--text-secondary)' }}>{order.product}</td>
-                <td style={{ fontWeight: 700 }}>{order.amount}</td>
-                <td>
-                  <span className="admin-status-pill" style={{ background: `${statusColors[order.status]}18`, color: statusColors[order.status] }}>
-                    {order.status}
-                  </span>
-                </td>
+        <div className="admin-table-responsive">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {recentOrders.map((order) => (
+                <tr key={order.id}>
+                  <td style={{ fontWeight: 600, color: 'var(--accent-gold)' }}>{order.id}</td>
+                  <td>{order.customer}</td>
+                  <td style={{ color: 'var(--text-secondary)' }}>{order.product}</td>
+                  <td style={{ fontWeight: 700 }}>{order.amount}</td>
+                  <td>
+                    <span className="admin-status-pill" style={{ background: `${statusColors[order.status]}18`, color: statusColors[order.status] }}>
+                      {order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

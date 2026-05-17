@@ -43,7 +43,7 @@ const AdminUsers = () => {
         <h1>User Management</h1>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: '1rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
+      <div className="admin-table-responsive" style={{ background: '#fff', borderRadius: '1rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead style={{ background: 'var(--bg-primary)', textAlign: 'left' }}>
             <tr>

@@ -324,44 +324,46 @@ const AdminAnalytics = () => {
               </div>
             </div>
 
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Current Stock</th>
-                  <th>Sales Velocity</th>
-                  <th>Est. Days Left</th>
-                  <th>AI Risk Level</th>
-                  <th>Recommendation</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stockRisks.map((item) => (
-                  <tr key={item.id} className={item.riskLevel === 'Critical' ? 'row-critical' : ''}>
-                    <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</td>
-                    <td style={{ color: 'var(--text-secondary)' }}>{item.category}</td>
-                    <td>
-                      <span className="stock-count-badge" style={{ color: item.stock <= 8 ? '#ef4444' : 'inherit', fontWeight: 700 }}>
-                        {item.stock} units
-                      </span>
-                    </td>
-                    <td style={{ color: 'var(--text-secondary)' }}>{item.velocity}</td>
-                    <td style={{ fontWeight: 700, color: item.badgeColor }}>
-                      {item.estDaysLeft} days
-                    </td>
-                    <td>
-                      <span className="ai-risk-badge" style={{ background: `${item.badgeColor}18`, color: item.badgeColor }}>
-                        {item.riskLevel}
-                      </span>
-                    </td>
-                    <td style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '300px' }}>
-                      {item.aiRecommendation}
-                    </td>
+            <div className="admin-table-responsive">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Current Stock</th>
+                    <th>Sales Velocity</th>
+                    <th>Est. Days Left</th>
+                    <th>AI Risk Level</th>
+                    <th>Recommendation</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {stockRisks.map((item) => (
+                    <tr key={item.id} className={item.riskLevel === 'Critical' ? 'row-critical' : ''}>
+                      <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</td>
+                      <td style={{ color: 'var(--text-secondary)' }}>{item.category}</td>
+                      <td>
+                        <span className="stock-count-badge" style={{ color: item.stock <= 8 ? '#ef4444' : 'inherit', fontWeight: 700 }}>
+                          {item.stock} units
+                        </span>
+                      </td>
+                      <td style={{ color: 'var(--text-secondary)' }}>{item.velocity}</td>
+                      <td style={{ fontWeight: 700, color: item.badgeColor }}>
+                        {item.estDaysLeft} days
+                      </td>
+                      <td>
+                        <span className="ai-risk-badge" style={{ background: `${item.badgeColor}18`, color: item.badgeColor }}>
+                          {item.riskLevel}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '300px' }}>
+                        {item.aiRecommendation}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
