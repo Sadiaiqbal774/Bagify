@@ -1,0 +1,460 @@
+{
+  "users": [
+    {
+      "name": "S",
+      "email": "iqbalsadia808@gmail.com",
+      "password": "$2b$10$nbgN6SA0LQyKvmFdbTVXdeXZFUeuUGeI/DLWpOGA51IjcBLg7SOCy",
+      "role": "admin",
+      "_id": "1775834183603",
+      "id": "1775834183603",
+      "createdAt": "2026-04-10T15:16:23.603Z",
+      "updatedAt": "2026-04-10T15:16:23.603Z"
+    },
+    {
+      "name": "A",
+      "email": "sadia808@gmail.com",
+      "password": "$2b$10$nbgN6SA0LQyKvmFdbTVXdeXZFUeuUGeI/DLWpOGA51IjcBLg7SOCy",
+      "role": "admin",
+      "_id": "1776186497057",
+      "id": "1776186497057",
+      "createdAt": "2026-04-14T17:08:17.057Z",
+      "updatedAt": "2026-04-14T17:08:17.057Z"
+    },
+    {
+      "name": "S",
+      "email": "adan@gmail.com",
+      "password": "$2b$10$NILIfhKj5GgPp2qho4MyG.8nxxEgTpwJL3lde5Uuvxf2OaDlSlki2",
+      "role": "admin",
+      "_id": "1776281742870",
+      "id": "1776281742870",
+      "createdAt": "2026-04-15T19:35:42.870Z",
+      "updatedAt": "2026-04-15T19:35:42.870Z"
+    },
+    {
+      "name": "A",
+      "email": "maham@gmail.com",
+      "password": "$2b$10$BqjMyrA2N9K7uyj6WQ6KHOkkQFvpHkkxX0JeThnLqZTT3Cx4k67zS",
+      "role": "admin",
+      "_id": "1776281774785",
+      "id": "1776281774785",
+      "createdAt": "2026-04-15T19:36:14.785Z",
+      "updatedAt": "2026-04-15T19:36:14.785Z"
+    },
+    {
+      "name": "haadi",
+      "email": "haadi@gmail.com",
+      "password": "$2b$10$zTHav3ewtjurJNSF9BGMLOydAZojHu/ZAtOrIjMDOybFzW15BgejS",
+      "role": "user",
+      "_id": "1776281916219",
+      "id": "1776281916219",
+      "createdAt": "2026-04-15T19:38:36.219Z",
+      "updatedAt": "2026-04-15T19:38:36.219Z"
+    },
+    {
+      "name": "maryam",
+      "email": "maryam@gmail.com",
+      "password": "$2b$10$RCCztW90K.jqCeSX39PbuufImPJUa2koV1EaNzVqMLyuTsEd/3LoG",
+      "role": "admin",
+      "_id": "1776282102254",
+      "id": "1776282102254",
+      "createdAt": "2026-04-15T19:41:42.254Z",
+      "updatedAt": "2026-04-15T19:41:42.254Z"
+    },
+    {
+      "name": "A",
+      "email": "alkdjsl@gmail.com",
+      "password": "$2b$10$ahpXVlJKanyzRb6m7cDiHOMyLGO6.3ekPTrKPXEyoefjTpC2SLQdO",
+      "role": "admin",
+      "_id": "1776318141045",
+      "id": "1776318141045",
+      "createdAt": "2026-04-16T05:42:21.045Z",
+      "updatedAt": "2026-04-16T05:42:21.045Z"
+    },
+    {
+      "name": "hamna ",
+      "email": "hl@gmail.com",
+      "password": "$2b$10$HgQkmFN3Ip8Lu6cP9atkGOEAJ0nLijA/GFMT4U8b.3rF4dNBVhaGK",
+      "role": "admin",
+      "_id": "1776837052644",
+      "id": "1776837052644",
+      "createdAt": "2026-04-22T05:50:52.644Z",
+      "updatedAt": "2026-04-22T05:50:52.644Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Midnight Executive Backpack",
+      "price": 185,
+      "description": "High-grade leather, ergonomic design for professionals.",
+      "category": "Backpacks",
+      "brand": "Bagify Elite",
+      "rating": 4.8,
+      "image": "/images/item1.png",
+      "stock": 12,
+      "slug": "midnight-executive-backpack",
+      "metaTitle": "Midnight Executive Backpack | Bagify Premium",
+      "metaDescription": "Professional black leather backpack.",
+      "metaKeywords": [
+        "backpack",
+        "leather"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Parisienne Burgundy Handbag",
+      "price": 240,
+      "description": "Elegant deep burgundy leather with gold-tone hardware.",
+      "category": "Handbags",
+      "brand": "Maison Luxe",
+      "rating": 4.9,
+      "image": "/images/item2.png",
+      "stock": 9,
+      "slug": "parisienne-burgundy-handbag",
+      "metaTitle": "Parisienne Burgundy Handbag | Designer",
+      "metaDescription": "Luxury burgundy leather handbag.",
+      "metaKeywords": [
+        "handbag",
+        "burgundy"
+      ],
+      "updatedAt": "2026-04-16T06:00:09.510Z"
+    },
+    {
+      "id": "3",
+      "name": "Urban Explorer Pack",
+      "price": 120,
+      "description": "Durable and spacious city companion.",
+      "category": "Backpacks",
+      "brand": "Bagify Urban",
+      "rating": 4.5,
+      "image": "/images/backpack.png",
+      "stock": 26,
+      "slug": "urban-explorer-pack",
+      "metaTitle": "Urban Explorer Pack | Bagify City",
+      "metaDescription": "Durable urban backpack.",
+      "metaKeywords": [
+        "backpack",
+        "urban"
+      ],
+      "updatedAt": "2026-04-16T05:59:45.338Z"
+    },
+    {
+      "id": "4",
+      "name": "Classic Chic Tote",
+      "price": 150,
+      "description": "Versatile tote for daily essentials.",
+      "category": "Handbags",
+      "brand": "Bagify Essentials",
+      "rating": 4.7,
+      "image": "/images/handbag.png",
+      "stock": 15,
+      "slug": "classic-chic-tote",
+      "metaTitle": "Classic Chic Tote | All-Day Handbag",
+      "metaDescription": "Versatile everyday tote.",
+      "metaKeywords": [
+        "tote",
+        "handbag"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Sahara Suede Crossbody",
+      "price": 195,
+      "description": "Soft Italian suede with hand-brushed brass accents.",
+      "category": "Handbags",
+      "brand": "Bagify Elite",
+      "rating": 4.9,
+      "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&q=80&w=800",
+      "stock": 10,
+      "slug": "sahara-suede-crossbody"
+    },
+    {
+      "id": "6",
+      "name": "Nomad Canvas Rucksack",
+      "price": 110,
+      "description": "Heavy-duty waxed canvas for the rugged explorer.",
+      "category": "Backpacks",
+      "brand": "Bagify Urban",
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
+      "stock": 17,
+      "slug": "nomad-canvas-rucksack",
+      "updatedAt": "2026-04-22T05:51:23.548Z"
+    },
+    {
+      "id": "7",
+      "name": "Capri Leather Clutch",
+      "price": 85,
+      "description": "Sleek and minimalist, perfect for evening artifacts.",
+      "category": "Handbags",
+      "brand": "Maison Luxe",
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=800",
+      "stock": 14,
+      "slug": "capri-leather-clutch"
+    },
+    {
+      "id": "8",
+      "name": "Arctic Voyager Backpack",
+      "price": 210,
+      "description": "Weatherproof tech-focused bag with modular storage.",
+      "category": "Backpacks",
+      "brand": "Bagify Tech",
+      "rating": 4.9,
+      "image": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&q=80&w=800",
+      "stock": 7,
+      "slug": "arctic-voyager-backpack"
+    },
+    {
+      "id": "10",
+      "name": "Heritage Satchel",
+      "price": 175,
+      "description": "Vintage-inspired design with modern internal organization.",
+      "category": "Handbags",
+      "brand": "Bagify Urban",
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800",
+      "stock": 12,
+      "slug": "heritage-satchel"
+    }
+  ],
+  "orders": [
+    {
+      "user": "1776281916219",
+      "userEmail": "haadi@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "price": 240,
+          "description": "Elegant deep burgundy leather with gold-tone hardware.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.9,
+          "image": "/images/item2.png",
+          "stock": 8,
+          "slug": "parisienne-burgundy-handbag",
+          "metaTitle": "Parisienne Burgundy Handbag | Designer",
+          "metaDescription": "Luxury burgundy leather handbag.",
+          "metaKeywords": [
+            "handbag",
+            "burgundy"
+          ],
+          "qty": 1
+        }
+      ],
+      "totalPrice": 240,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-16T05:41:16.495Z",
+      "_id": "1776318076495",
+      "id": "1776318076495",
+      "updatedAt": "2026-04-16T05:41:16.495Z"
+    },
+    {
+      "user": "1776318141045",
+      "userEmail": "alkdjsl@gmail.com",
+      "orderItems": [
+        {
+          "id": "6",
+          "name": "Nomad Canvas Rucksack",
+          "price": 110,
+          "description": "Heavy-duty waxed canvas for the rugged explorer.",
+          "category": "Backpacks",
+          "brand": "Bagify Urban",
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
+          "stock": 18,
+          "slug": "nomad-canvas-rucksack",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 110,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-16T05:50:54.454Z",
+      "_id": "1776318654454",
+      "id": "1776318654454",
+      "updatedAt": "2026-04-16T05:50:54.454Z"
+    },
+    {
+      "user": "1776318141045",
+      "userEmail": "alkdjsl@gmail.com",
+      "orderItems": [
+        {
+          "id": "4",
+          "name": "Classic Chic Tote",
+          "price": 150,
+          "description": "Versatile tote for daily essentials.",
+          "category": "Handbags",
+          "brand": "Bagify Essentials",
+          "rating": 4.7,
+          "image": "/images/handbag.png",
+          "stock": 15,
+          "slug": "classic-chic-tote",
+          "metaTitle": "Classic Chic Tote | All-Day Handbag",
+          "metaDescription": "Versatile everyday tote.",
+          "metaKeywords": [
+            "tote",
+            "handbag"
+          ],
+          "qty": 1
+        }
+      ],
+      "totalPrice": 150,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-16T06:01:10.531Z",
+      "_id": "1776319270531",
+      "id": "1776319270531",
+      "updatedAt": "2026-04-16T06:01:10.531Z"
+    },
+    {
+      "user": "1776318141045",
+      "userEmail": "alkdjsl@gmail.com",
+      "orderItems": [
+        {
+          "id": "8",
+          "name": "Arctic Voyager Backpack",
+          "price": 210,
+          "description": "Weatherproof tech-focused bag with modular storage.",
+          "category": "Backpacks",
+          "brand": "Bagify Tech",
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&q=80&w=800",
+          "stock": 7,
+          "slug": "arctic-voyager-backpack",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 210,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-22T05:36:08.201Z",
+      "_id": "1776836168201",
+      "id": "1776836168201",
+      "updatedAt": "2026-04-22T05:36:08.201Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "5",
+          "name": "Sahara Suede Crossbody",
+          "price": 195,
+          "description": "Soft Italian suede with hand-brushed brass accents.",
+          "category": "Handbags",
+          "brand": "Bagify Elite",
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&q=80&w=800",
+          "stock": 10,
+          "slug": "sahara-suede-crossbody",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 195,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-22T05:58:55.016Z",
+      "_id": "1776837535016",
+      "id": "1776837535016",
+      "updatedAt": "2026-04-22T05:58:55.016Z"
+    },
+    {
+      "user": "1775834183603",
+      "userEmail": "iqbalsadia808@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "price": 240,
+          "description": "Elegant deep burgundy leather with gold-tone hardware.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.9,
+          "image": "/images/item2.png",
+          "stock": 9,
+          "slug": "parisienne-burgundy-handbag",
+          "metaTitle": "Parisienne Burgundy Handbag | Designer",
+          "metaDescription": "Luxury burgundy leather handbag.",
+          "metaKeywords": [
+            "handbag",
+            "burgundy"
+          ],
+          "updatedAt": "2026-04-16T06:00:09.510Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 240,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-04-28T18:22:09.323Z",
+      "_id": "1777400529323",
+      "id": "1777400529323",
+      "updatedAt": "2026-04-28T18:22:09.323Z"
+    },
+    {
+      "user": "1776837052644",
+      "userEmail": "hl@gmail.com",
+      "orderItems": [
+        {
+          "id": "6",
+          "name": "Nomad Canvas Rucksack",
+          "price": 110,
+          "description": "Heavy-duty waxed canvas for the rugged explorer.",
+          "category": "Backpacks",
+          "brand": "Bagify Urban",
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
+          "stock": 17,
+          "slug": "nomad-canvas-rucksack",
+          "updatedAt": "2026-04-22T05:51:23.548Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 110,
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-17T12:22:41.607Z",
+      "_id": "1779020561607",
+      "id": "1779020561607",
+      "updatedAt": "2026-05-17T12:22:41.607Z"
+    }
+  ],
+  "faqs": [
+    {
+      "shipping": "We offer free worldwide shipping on all orders over $150. Delivery takes 3-7 business days.",
+      "returns": "Our return policy is 30 days. Items must be in original packaging with tags.",
+      "payments": "We accept Credit/Debit cards, PayPal, and Bitcoin via our secure sandbox gateway."
+    }
+  ]
+}
