@@ -15,7 +15,10 @@ import {
   PackageX,
   ArrowUpRight,
   ShieldCheck,
-  TrendingDown
+  TrendingDown,
+  PieChart,
+  Activity,
+  ShoppingBag
 } from 'lucide-react';
 
 const AdminAnalytics = () => {
@@ -177,96 +180,6 @@ const AdminAnalytics = () => {
       {/* TAB 1: OVERVIEW & EMBEDDED GRAPHICAL REPRESENTATIONS */}
       {activeTab === 'overview' && (
         <div className="analytics-tab-content">
-          {/* Graphical Representation Card */}
-          <div className="admin-chart-card">
-            <div className="chart-card-header">
-              <div>
-                <h3 className="chart-card-title">7-Day Projected Category Demand Forecast</h3>
-                <p className="chart-card-subtitle">AI simulation based on user search velocity & seasonal purchase vectors</p>
-              </div>
-              <div className="chart-legend">
-                <span className="legend-item"><span className="legend-dot" style={{ background: '#c5a059' }}></span>Handbags</span>
-                <span className="legend-item"><span className="legend-dot" style={{ background: '#6366f1' }}></span>Backpacks</span>
-                <span className="legend-item"><span className="legend-dot" style={{ background: '#10b981' }}></span>Urban & Tech</span>
-              </div>
-            </div>
-
-            {/* Custom Gorgeous SVG Trend Graph */}
-            <div className="svg-chart-container">
-              <svg viewBox="0 0 800 320" className="animated-trend-chart">
-                <defs>
-                  <linearGradient id="handbags-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#c5a059" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#c5a059" stopOpacity="0.0" />
-                  </linearGradient>
-                  <linearGradient id="backpacks-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Grid Lines */}
-                <line x1="60" y1="40" x2="760" y2="40" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
-                <line x1="60" y1="110" x2="760" y2="110" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
-                <line x1="60" y1="180" x2="760" y2="180" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
-                <line x1="60" y1="250" x2="760" y2="250" stroke="rgba(255,255,255,0.1)" />
-
-                {/* Y Axis Labels */}
-                <text x="45" y="45" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">60 units</text>
-                <text x="45" y="115" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">40 units</text>
-                <text x="45" y="185" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">20 units</text>
-                <text x="45" y="255" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">0</text>
-
-                {/* X Axis Labels & Points */}
-                {graphicalData.demandTrends.map((d, idx) => {
-                  const x = 100 + idx * 105;
-                  return (
-                    <g key={d.day}>
-                      <text x={x} y="275" fill="var(--text-secondary)" fontSize="12" fontWeight="600" textAnchor="middle">{d.day}</text>
-                    </g>
-                  );
-                })}
-
-                {/* Path 1: Handbags Area & Line */}
-                <path 
-                  d="M100,210 L205,190 L310,170 L415,130 L520,80 L625,35 L730,15 L730,250 L100,250 Z" 
-                  fill="url(#handbags-grad)" 
-                />
-                <path 
-                  d="M100,210 L205,190 L310,170 L415,130 L520,80 L625,35 L730,15" 
-                  fill="none" 
-                  stroke="#c5a059" 
-                  strokeWidth="3.5" 
-                  strokeLinecap="round" 
-                  className="chart-line-anim"
-                />
-
-                {/* Path 2: Backpacks Line */}
-                <path 
-                  d="M100,230 L205,215 L310,195 L415,200 L520,150 L625,115 L730,85 L730,250 L100,250 Z" 
-                  fill="url(#backpacks-grad)" 
-                />
-                <path 
-                  d="M100,230 L205,215 L310,195 L415,200 L520,150 L625,115 L730,85" 
-                  fill="none" 
-                  stroke="#6366f1" 
-                  strokeWidth="3.5" 
-                  strokeLinecap="round" 
-                  className="chart-line-anim-2"
-                />
-
-                {/* Data Points */}
-                <circle cx="730" cy="15" r="6" fill="#c5a059" stroke="#121216" strokeWidth="3" />
-                <circle cx="730" cy="85" r="6" fill="#6366f1" stroke="#121216" strokeWidth="3" />
-              </svg>
-            </div>
-            
-            <div className="chart-footer-insight">
-              <Sparkles size={16} className="accent-gold" />
-              <span><strong>AI Demand Rationale:</strong> Handbag sales are modeled to spike by <strong>+28.4%</strong> toward the weekend due to high engagement with 'Parisienne Burgundy' marketing campaigns.</span>
-            </div>
-          </div>
-
           {/* Quick Cards Grid */}
           <div className="ai-cards-grid">
             <div className="ai-insight-card">
@@ -306,6 +219,229 @@ const AdminAnalytics = () => {
                 <div className="ai-progress-fill" style={{ width: '65%', background: 'var(--accent-gold)' }}></div>
               </div>
               <p className="ai-card-subtext">Drop to $215 suggested (+38% velocity boost)</p>
+            </div>
+          </div>
+
+          {/* Graphical Multi-Grid */}
+          <div className="analytics-multi-grid">
+            {/* Chart 1: 7-Day Projected Category Demand Forecast */}
+            <div className="admin-chart-card">
+              <div className="chart-card-header">
+                <div>
+                  <h3 className="chart-card-title">7-Day Demand Forecast</h3>
+                  <p className="chart-card-subtitle">AI simulation based on user search velocity & seasonal vectors</p>
+                </div>
+                <div className="chart-legend">
+                  <span className="legend-item"><span className="legend-dot" style={{ background: '#c5a059' }}></span>Handbags</span>
+                  <span className="legend-item"><span className="legend-dot" style={{ background: '#6366f1' }}></span>Backpacks</span>
+                </div>
+              </div>
+
+              <div className="svg-chart-container">
+                <svg viewBox="0 0 800 320" className="animated-trend-chart">
+                  <defs>
+                    <linearGradient id="handbags-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#c5a059" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#c5a059" stopOpacity="0.0" />
+                    </linearGradient>
+                    <linearGradient id="backpacks-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
+                    </linearGradient>
+                  </defs>
+
+                  <line x1="60" y1="40" x2="760" y2="40" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="110" x2="760" y2="110" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="180" x2="760" y2="180" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="250" x2="760" y2="250" stroke="rgba(255,255,255,0.1)" />
+
+                  <text x="45" y="45" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">60 units</text>
+                  <text x="45" y="115" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">40 units</text>
+                  <text x="45" y="185" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">20 units</text>
+                  <text x="45" y="255" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">0</text>
+
+                  {graphicalData.demandTrends.map((d, idx) => {
+                    const x = 100 + idx * 105;
+                    return (
+                      <g key={d.day}>
+                        <text x={x} y="275" fill="var(--text-secondary)" fontSize="12" fontWeight="600" textAnchor="middle">{d.day}</text>
+                      </g>
+                    );
+                  })}
+
+                  <path d="M100,210 L205,190 L310,170 L415,130 L520,80 L625,35 L730,15 L730,250 L100,250 Z" fill="url(#handbags-grad)" />
+                  <path d="M100,210 L205,190 L310,170 L415,130 L520,80 L625,35 L730,15" fill="none" stroke="#c5a059" strokeWidth="3.5" strokeLinecap="round" className="chart-line-anim" />
+
+                  <path d="M100,230 L205,215 L310,195 L415,200 L520,150 L625,115 L730,85 L730,250 L100,250 Z" fill="url(#backpacks-grad)" />
+                  <path d="M100,230 L205,215 L310,195 L415,200 L520,150 L625,115 L730,85" fill="none" stroke="#6366f1" strokeWidth="3.5" strokeLinecap="round" className="chart-line-anim-2" />
+
+                  <circle cx="730" cy="15" r="6" fill="#c5a059" stroke="#121216" strokeWidth="3" />
+                  <circle cx="730" cy="85" r="6" fill="#6366f1" stroke="#121216" strokeWidth="3" />
+                </svg>
+              </div>
+              
+              <div className="chart-footer-insight">
+                <Sparkles size={16} className="accent-gold" />
+                <span>Handbag sales modeled to spike <strong>+28.4%</strong> toward weekend due to Parisienne campaign.</span>
+              </div>
+            </div>
+
+            {/* Chart 2: Category Share & Revenue Distribution */}
+            <div className="admin-chart-card">
+              <div className="chart-card-header">
+                <div>
+                  <h3 className="chart-card-title">Category Revenue Share</h3>
+                  <p className="chart-card-subtitle">Real-time revenue distribution & product momentum</p>
+                </div>
+                <PieChart size={24} style={{ color: 'var(--accent-gold)' }} />
+              </div>
+
+              <div className="donut-chart-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', margin: '1.5rem 0', flexWrap: 'wrap', gap: '1.5rem' }}>
+                <div style={{ position: 'relative', width: '220px', height: '220px' }}>
+                  <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                    {/* Background circle */}
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="rgba(0,0,0,0.05)" strokeWidth="14" />
+                    {/* Handbags: 55% */}
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="#c5a059" strokeWidth="14" strokeDasharray={`${55 * 2.387} 238.7`} strokeDashoffset="0" strokeLinecap="round" style={{ transition: 'all 1s ease' }} />
+                    {/* Backpacks: 30% */}
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="#6366f1" strokeWidth="14" strokeDasharray={`${30 * 2.387} 238.7`} strokeDashoffset={`-${55 * 2.387}`} strokeLinecap="round" style={{ transition: 'all 1s ease' }} />
+                    {/* Urban & Tech: 15% */}
+                    <circle cx="50" cy="50" r="38" fill="transparent" stroke="#10b981" strokeWidth="14" strokeDasharray={`${15 * 2.387} 238.7`} strokeDashoffset={`-${85 * 2.387}`} strokeLinecap="round" style={{ transition: 'all 1s ease' }} />
+                  </svg>
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
+                    <span style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1 }}>$48.2K</span>
+                    <span style={{ display: 'block', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-tertiary)', marginTop: '0.2rem' }}>Total Monthly</span>
+                  </div>
+                </div>
+
+                <div className="share-breakdown-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', minWidth: '180px', flex: 1 }}>
+                  {graphicalData.categoryShare.map(c => (
+                    <div key={c.name} style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem', fontWeight: 600 }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                          <span style={{ width: '12px', height: '12px', borderRadius: '4px', background: c.color }}></span>
+                          {c.name}
+                        </span>
+                        <span style={{ fontWeight: 800, color: 'var(--text-primary)' }}>{c.share}%</span>
+                      </div>
+                      <div style={{ width: '100%', height: '6px', background: 'var(--bg-tertiary)', borderRadius: '100px', overflow: 'hidden' }}>
+                        <div style={{ width: `${c.share}%`, height: '100%', background: c.color, borderRadius: '100px' }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="chart-footer-insight">
+                <Sparkles size={16} className="accent-gold" />
+                <span>Handbags represent <strong>55%</strong> of gross merchandise value. Strong brand loyalty observed.</span>
+              </div>
+            </div>
+
+            {/* Chart 3: Price Elasticity & Revenue Optimization Curve */}
+            <div className="admin-chart-card">
+              <div className="chart-card-header">
+                <div>
+                  <h3 className="chart-card-title">Price Elasticity Curve</h3>
+                  <p className="chart-card-subtitle">Optimal conversion vs. price escalation modeling</p>
+                </div>
+                <Activity size={24} style={{ color: '#10b981' }} />
+              </div>
+
+              <div className="svg-chart-container" style={{ position: 'relative' }}>
+                <svg viewBox="0 0 800 320" className="animated-trend-chart">
+                  <defs>
+                    <linearGradient id="revenue-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
+                    </linearGradient>
+                  </defs>
+
+                  <line x1="60" y1="40" x2="760" y2="40" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="110" x2="760" y2="110" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="180" x2="760" y2="180" stroke="rgba(255,255,255,0.05)" strokeDasharray="5,5" />
+                  <line x1="60" y1="250" x2="760" y2="250" stroke="rgba(255,255,255,0.1)" />
+
+                  <text x="45" y="45" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">$20K</text>
+                  <text x="45" y="115" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">$18K</text>
+                  <text x="45" y="185" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">$16K</text>
+                  <text x="45" y="255" fill="var(--text-tertiary)" fontSize="11" textAnchor="end">$14K</text>
+
+                  {graphicalData.priceElasticityCurve.map((p, idx) => {
+                    const x = 120 + idx * 140;
+                    return (
+                      <g key={p.pricePoint}>
+                        <text x={x} y="275" fill={p.pricePoint.includes('Optimal') ? '#10b981' : 'var(--text-secondary)'} fontSize="12" fontWeight={p.pricePoint.includes('Optimal') ? '800' : '600'} textAnchor="middle">{p.pricePoint}</text>
+                      </g>
+                    );
+                  })}
+
+                  {/* Highlight Sweet Spot Line */}
+                  <line x1="540" y1="30" x2="540" y2="250" stroke="#10b981" strokeWidth="2" strokeDasharray="6,4" />
+                  <rect x="480" y="8" width="120" height="26" rx="13" fill="#10b981" />
+                  <text x="540" y="25" fill="#ffffff" fontSize="11" fontWeight="700" textAnchor="middle">AI SWEET SPOT</text>
+
+                  {/* Revenue Curve */}
+                  <path d="M120,75 L260,85 L400,115 L540,105 L680,240 L680,250 L120,250 Z" fill="url(#revenue-grad)" />
+                  <path d="M120,75 L260,85 L400,115 L540,105 L680,240" fill="none" stroke="#10b981" strokeWidth="4" strokeLinecap="round" className="chart-line-anim" />
+
+                  {/* Points */}
+                  <circle cx="120" cy="75" r="6" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                  <circle cx="260" cy="85" r="6" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                  <circle cx="400" cy="115" r="6" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                  <circle cx="540" cy="105" r="8" fill="#10b981" stroke="#121216" strokeWidth="3" style={{ filter: 'drop-shadow(0 0 10px #10b981)' }} />
+                  <circle cx="680" cy="240" r="6" fill="#ef4444" stroke="#ffffff" strokeWidth="2" />
+                </svg>
+              </div>
+
+              <div className="chart-footer-insight">
+                <Sparkles size={16} className="accent-gold" />
+                <span>Lowering price from $240 to <strong>$215</strong> restores optimal elasticity, capturing <strong>+$3,875/week</strong>.</span>
+              </div>
+            </div>
+
+            {/* Chart 4: Real-Time Inventory Exhaustion Velocity */}
+            <div className="admin-chart-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <div className="chart-card-header">
+                  <div>
+                    <h3 className="chart-card-title">Stock Exhaustion Velocity</h3>
+                    <p className="chart-card-subtitle">Estimated days remaining until complete stockout</p>
+                  </div>
+                  <ShoppingBag size={24} style={{ color: '#ef4444' }} />
+                </div>
+
+                <div className="stock-exhaustion-bars" style={{ display: 'flex', flexDirection: 'column', gap: '1.4rem', margin: '1.5rem 0' }}>
+                  {stockRisks.slice(0, 5).map(item => (
+                    <div key={item.id} className="stock-risk-bar-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>{item.name}</span>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 800, color: item.badgeColor, background: `${item.badgeColor}18`, padding: '0.2rem 0.6rem', borderRadius: '6px' }}>
+                          {item.estDaysLeft} Days Left ({item.stock} in stock)
+                        </span>
+                      </div>
+                      <div style={{ width: '100%', height: '10px', background: 'var(--bg-tertiary)', borderRadius: '100px', overflow: 'hidden' }}>
+                        <div 
+                          style={{ 
+                            width: `${Math.min((item.stock / 25) * 100, 100)}%`, 
+                            height: '100%', 
+                            background: item.badgeColor, 
+                            borderRadius: '100px',
+                            boxShadow: `0 0 10px ${item.badgeColor}60`,
+                            transition: 'width 1s ease'
+                          }}
+                        ></div>
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Sales Velocity: {item.velocity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="chart-footer-insight" style={{ borderColor: '#ef4444', background: 'rgba(239,68,68,0.06)' }}>
+                <AlertTriangle size={16} style={{ color: '#ef4444' }} />
+                <span style={{ color: 'var(--text-secondary)' }}><strong>Critical Action:</strong> {stockRisks.filter(r => r.riskLevel === 'Critical').length} items require immediate purchase order dispatch.</span>
+              </div>
             </div>
           </div>
         </div>

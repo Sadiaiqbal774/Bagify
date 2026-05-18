@@ -43,6 +43,18 @@ exports.getOrders = async (req, res) => {
   }
 };
 
+// @desc    Get logged in user orders
+// @route   GET /api/orders/myorders
+// @access  Private
+exports.getMyOrders = async (req, res) => {
+  try {
+    const orders = dbService.find('orders').filter(o => o.userEmail === req.user.email || String(o.user) === String(req.user.id || req.user._id));
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @desc    Update order status
 // @route   PUT /api/orders/:id/status
 // @access  Private/Admin

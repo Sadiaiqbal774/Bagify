@@ -420,6 +420,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .chart-footer-insight { margin-top: 2rem; padding: 1.2rem 1.8rem; background: rgba(197,160,89,0.08); border-left: 4px solid var(--accent-gold); border-radius: 0 12px 12px 0; display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: var(--text-secondary); }
 
+.analytics-multi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; margin-top: 2.5rem; }
+@media (max-width: 1024px) { .analytics-multi-grid { grid-template-columns: 1fr; } }
+
 .ai-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .ai-insight-card { background: white; border-radius: 16px; padding: 1.8rem; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s; }
 .ai-insight-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
