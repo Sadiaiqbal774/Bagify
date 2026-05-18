@@ -52,10 +52,22 @@ const Chatbot = () => {
       setMessages(prev => [...prev, { 
         text: data.reply, 
         sender: 'ai',
-        products: data.products // Store products in message state
+        products: data.products,
+        action: data.action
       }]);
     } catch (err) {
       setMessages(prev => [...prev, { text: "Sorry, my brain is offline. Please try again later.", sender: 'ai' }]);
+    }
+  };
+
+  const handleQuickAction = async (cmd) => {
+    const userMsg = { text: cmd, sender: 'user' };
+    setMessages(prev => [...prev, userMsg]);
+    try {
+      const { data } = await axios.post('/api/ai/chat', { message: cmd, cartItems });
+      setMessages(prev => [...prev, { text: data.reply, sender: 'ai', products: data.products, action: data.action }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { text: "Error executing command.", sender: 'ai' }]);
     }
   };
 
@@ -85,10 +97,30 @@ const Chatbot = () => {
                 <div className={`chat-bubble-modern ${msg.sender === 'ai' ? 'ai-bubble-modern' : 'user-bubble-modern'}`}>
                   {msg.text}
                 </div>
+                
+                {msg.action === 'OPEN_ANALYTICS' && (
+                  <div style={{ marginTop: '0.6rem', display: 'flex', gap: '0.5rem' }}>
+                    <Link to="/dashboard/analytics" style={{ background: 'var(--accent-gold)', color: '#000', padding: '0.6rem 1.2rem', fontSize: '0.8rem', fontWeight: 800, borderRadius: '50px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: '0 4px 15px rgba(197,160,89,0.3)' }} onClick={() => setIsOpen(false)}>
+                      📊 Open AI Analytics Dashboard
+                    </Link>
+                  </div>
+                )}
+
+                {msg.action === 'VIEW_PRICING_SUGGESTION' && (
+                  <div style={{ marginTop: '0.6rem', display: 'flex', gap: '0.5rem' }}>
+                    <button 
+                      onClick={() => handleQuickAction("Apply price drop for Parisienne to 215")} 
+                      style={{ background: 'var(--accent-gold)', color: '#000', padding: '0.6rem 1.2rem', fontSize: '0.8rem', fontWeight: 800, borderRadius: '50px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: '0 4px 15px rgba(197,160,89,0.3)' }}
+                    >
+                      ⚡ Execute $215 Price Drop Now
+                    </button>
+                  </div>
+                )}
+
                 {msg.products && msg.products.length > 0 && (
-                  <div className="chat-products-container">
+                  <div className="chat-products-container" style={{ marginTop: '0.5rem' }}>
                     {msg.products.map(p => (
-                      <Link key={p.id} to={`/product/${p.id}`} className="chat-product-card" onClick={() => setIsOpen(false)}>
+                      <Link key={p.id || p._id} to={`/product/${p.id || p._id}`} className="chat-product-card" onClick={() => setIsOpen(false)}>
                         <div className="chat-product-img">
                           <img src={p.image} alt={p.name} />
                         </div>

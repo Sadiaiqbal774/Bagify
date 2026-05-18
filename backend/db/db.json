@@ -255,16 +255,18 @@
         }
       ],
       "totalPrice": 240,
-      "status": "Processing",
+      "status": "Delivered",
       "timeline": [
         "Ordered",
-        "Processing"
+        "Processing",
+        "Shipped",
+        "Delivered"
       ],
-      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "lastUpdate": "Your order has been delivered successfully.",
       "createdAt": "2026-04-16T05:41:16.495Z",
       "_id": "1776318076495",
       "id": "1776318076495",
-      "updatedAt": "2026-04-16T05:41:16.495Z"
+      "updatedAt": "2026-05-18T19:06:53.084Z"
     },
     {
       "user": "1776318141045",
