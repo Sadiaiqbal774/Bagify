@@ -3,12 +3,12 @@
     {
       "name": "S",
       "email": "iqbalsadia808@gmail.com",
-      "password": "$2b$10$nbgN6SA0LQyKvmFdbTVXdeXZFUeuUGeI/DLWpOGA51IjcBLg7SOCy",
+      "password": "$2b$10$XGrOgL8hrOtXrSLI5X2PEOpkC6LGFsuCBqXc2SjOxqSP8R2dRDvZW",
       "role": "admin",
       "_id": "1775834183603",
       "id": "1775834183603",
       "createdAt": "2026-04-10T15:16:23.603Z",
-      "updatedAt": "2026-04-10T15:16:23.603Z"
+      "updatedAt": "2026-05-19T19:43:05.966Z"
     },
     {
       "name": "A",
@@ -89,6 +89,16 @@
       "id": "1779130906515",
       "createdAt": "2026-05-18T19:01:46.515Z",
       "updatedAt": "2026-05-18T19:01:46.515Z"
+    },
+    {
+      "name": "m",
+      "email": "a@gmail.com",
+      "password": "$2b$10$r/uvZwHpUlE4LXykhM9N3OZiUx/LibUcyMSaXumiZIy6vTRPzIMqi",
+      "role": "user",
+      "_id": "1779219476090",
+      "id": "1779219476090",
+      "createdAt": "2026-05-19T19:37:56.090Z",
+      "updatedAt": "2026-05-19T19:37:56.090Z"
     }
   ],
   "products": [
@@ -739,6 +749,81 @@
       "_id": "1779130932128",
       "id": "1779130932128",
       "updatedAt": "2026-05-18T19:02:12.128Z"
+    },
+    {
+      "user": "1779130906515",
+      "userEmail": "adnan@gmail.com",
+      "orderItems": [
+        {
+          "id": "1",
+          "name": "Midnight Executive Backpack",
+          "price": 185,
+          "description": "High-grade leather, ergonomic design for professionals.",
+          "category": "Backpacks",
+          "brand": "Bagify Elite",
+          "rating": 4.8,
+          "image": "/images/item1.png",
+          "stock": 12,
+          "slug": "midnight-executive-backpack",
+          "metaTitle": "Midnight Executive Backpack | Bagify Premium",
+          "metaDescription": "Professional black leather backpack.",
+          "metaKeywords": [
+            "backpack",
+            "leather"
+          ],
+          "qty": 1
+        }
+      ],
+      "totalPrice": 185,
+      "paymentMethod": "Cash on Delivery",
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-19T19:24:10.354Z",
+      "_id": "1779218650354",
+      "id": "1779218650354",
+      "updatedAt": "2026-05-19T19:24:10.354Z"
+    },
+    {
+      "user": "1779130906515",
+      "userEmail": "adnan@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "price": 215,
+          "description": "Elegant deep burgundy leather with gold-tone hardware.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.9,
+          "image": "/images/item2.png",
+          "stock": 9,
+          "slug": "parisienne-burgundy-handbag",
+          "metaTitle": "Parisienne Burgundy Handbag | Designer",
+          "metaDescription": "Luxury burgundy leather handbag.",
+          "metaKeywords": [
+            "handbag",
+            "burgundy"
+          ],
+          "updatedAt": "2026-05-17T16:41:51.450Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 215,
+      "paymentMethod": "Cash on Delivery",
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-19T19:29:03.829Z",
+      "_id": "1779218943829",
+      "id": "1779218943829",
+      "updatedAt": "2026-05-19T19:29:03.829Z"
     }
   ],
   "faqs": [

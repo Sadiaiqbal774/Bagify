@@ -21,7 +21,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem', background: '#fff', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-lg)' }}>
+    <div className="auth-page-wrap">
       <SEO title="Login" />
       <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Account Login</h2>
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}

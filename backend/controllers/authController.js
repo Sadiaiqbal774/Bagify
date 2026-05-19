@@ -1,6 +1,7 @@
 const dbService = require('../services/dbService');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { getRoleForEmail } = require('../utils/role');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -8,27 +9,34 @@ const generateToken = (id) => {
 
 // @desc    Register new user
 exports.registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role: requestedRole } = req.body;
 
   try {
     const userExists = dbService.findOne('users', { email });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
 
+    if (requestedRole === 'admin' && getRoleForEmail(email) !== 'admin') {
+      return res.status(403).json({
+        message: 'Administrator access is limited to authorized store owner accounts only.',
+      });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const role = requestedRole === 'admin' ? 'admin' : 'user';
 
     const user = dbService.create('users', { 
       name, 
       email, 
       password: hashedPassword, 
-      role: role || 'user' // Respect the frontend's chosen role
+      role,
     });
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: getRoleForEmail(user.email),
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -47,7 +55,7 @@ exports.loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: getRoleForEmail(user.email),
         token: generateToken(user._id),
       });
     } else {

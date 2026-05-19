@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dbService = require('../services/dbService');
+const { getRoleForEmail } = require('../utils/role');
 
 const protect = async (req, res, next) => {
   let token;
@@ -12,7 +13,7 @@ const protect = async (req, res, next) => {
       const user = dbService.findById('users', decoded.id);
       if (user) {
         const { password, ...userWithoutPassword } = user;
-        req.user = userWithoutPassword;
+        req.user = { ...userWithoutPassword, role: getRoleForEmail(user.email) };
       } else {
         req.user = { id: decoded.id || 'guest_' + Date.now(), email: 'guest@bagify.com', role: 'customer' };
       }

@@ -1,4 +1,5 @@
 const dbService = require('../services/dbService');
+const { buildInventoryAnalytics } = require('../services/inventoryAnalyticsService');
 
 // Helper for finding products based on natural language
 const searchProducts = (message, allProducts) => {
@@ -77,17 +78,84 @@ const searchProducts = (message, allProducts) => {
   return { filtered, priceVal, filterApplied };
 };
 
+const formatStockLines = (items, emptyMsg) => {
+  if (!items.length) return emptyMsg;
+  return items
+    .slice(0, 8)
+    .map(
+      (p, i) =>
+        `${i + 1}. **${p.name}** — ${p.stock} units left` +
+        (p.riskLevel ? ` (${p.riskLevel})` : '') +
+        (p.estDaysLeft != null && p.estDaysLeft > 0 ? ` · ~${p.estDaysLeft} days remaining` : '')
+    )
+    .join('\n');
+};
+
+const formatPricingLines = (items) => {
+  if (!items.length) return 'No pricing optimizations flagged right now.';
+  return items
+    .slice(0, 6)
+    .map(
+      (p, i) =>
+        `${i + 1}. **${p.name}** — $${p.currentPrice} → **$${p.suggestedPrice}** (${p.urgency} priority)`
+    )
+    .join('\n');
+};
+
+const findProductForPriceChange = (message, products) => {
+  const { filtered } = searchProducts(message, products);
+  if (filtered.length > 0) return filtered[0];
+  const critical = products.find((p) => String(p.id) === '2' || p.name?.toLowerCase().includes('parisienne'));
+  return critical || products[0];
+};
+
 /**
  * Advanced Intent Recognition & Extraction
  */
-const detectIntent = (text) => {
+const detectIntent = (text, isAdmin = false) => {
   const msg = text.toLowerCase();
-  
-  // Admin & AI Analytics Intent Detection
-  if (msg.includes('apply price') || msg.includes('drop price') || msg.includes('adjust price') || msg.includes('change price')) return 'admin_apply_price';
-  if (msg.includes('analytics') || msg.includes('forecast') || msg.includes('overview') || msg.includes('revenue report') || msg.includes('store analytics') || msg.includes('executive report')) return 'admin_analytics_overview';
-  if (msg.includes('stock risk') || msg.includes('stockout') || msg.includes('exhaustion') || msg.includes('low stock') || msg.includes('reorder report') || msg.includes('out of stock')) return 'admin_analytics_stock';
-  if ((msg.includes('price') || msg.includes('pricing') || msg.includes('elasticity') || msg.includes('sweet spot')) && (msg.includes('suggestion') || msg.includes('suggest') || msg.includes('optimize') || msg.includes('report') || msg.includes('model') || msg.includes('curve'))) return 'admin_analytics_pricing';
+
+  if (isAdmin) {
+    if (msg.includes('apply price') || msg.includes('drop price') || msg.includes('adjust price') || msg.includes('change price') || msg.includes('set price')) {
+      return 'admin_apply_price';
+    }
+    if (msg.includes('full report') || msg.includes('complete report') || msg.includes('inventory report') || msg.includes('everything')) {
+      return 'admin_full_report';
+    }
+    if (msg.includes('out of stock') || msg.includes('sold out') || msg.includes('zero stock') || msg.includes('no stock')) {
+      return 'admin_out_of_stock';
+    }
+    if (
+      msg.includes('low stock') ||
+      msg.includes('stock risk') ||
+      msg.includes('stockout') ||
+      msg.includes('reorder') ||
+      msg.includes('running low') ||
+      msg.includes('stock alert')
+    ) {
+      return 'admin_analytics_stock';
+    }
+    if (
+      (msg.includes('price') || msg.includes('pricing') || msg.includes('elasticity') || msg.includes('sweet spot')) &&
+      (msg.includes('suggestion') || msg.includes('suggest') || msg.includes('optimize') || msg.includes('report') || msg.includes('model') || msg.includes('curve') || msg.includes('markdown'))
+    ) {
+      return 'admin_analytics_pricing';
+    }
+    if (
+      msg.includes('analytics') ||
+      msg.includes('forecast') ||
+      msg.includes('overview') ||
+      msg.includes('revenue') ||
+      msg.includes('store performance') ||
+      msg.includes('executive') ||
+      msg.includes('dashboard')
+    ) {
+      return 'admin_analytics_overview';
+    }
+    if (msg.includes('inventory') || msg.includes('stock status') || msg.includes('stock levels')) {
+      return 'admin_inventory_status';
+    }
+  }
 
   if (msg.includes('shipping') || msg.includes('return') || msg.includes('payment')) return 'faq';
   if (msg.includes('track') || msg.includes('order') || msg.match(/bg-\d+/)) return 'track';
@@ -108,68 +176,139 @@ const detectIntent = (text) => {
 
 const handleChatRequest = async (req, res) => {
   try {
-    const { message, cartItems = [] } = req.body;
-    const intent = detectIntent(message);
+    const { message, cartItems = [], isAdmin = false } = req.body;
+    const intent = detectIntent(message, isAdmin);
     let products = [];
     let reply = '';
     let action = null;
     let actionProduct = null;
+    let adminPanel = null;
 
     switch (intent) {
       case 'admin_analytics_overview': {
-        const allProds = dbService.find('products') || [];
-        reply = `**📊 AI Executive Inventory & Revenue Analytics**\n\n` +
-                `• **Catalog Size**: ${allProds.length} Active Luxury Lines\n` +
-                `• **Upcoming Surge Category**: Handbags (+28.4% projected demand velocity)\n` +
-                `• **Critical Stockout Risks**: 1 Item pending immediate reorder\n\n` +
-                `Would you like to see the **Stock Risk Report** or **Pricing Optimization Suggestions**?`;
+        const analytics = buildInventoryAnalytics();
+        const { summary } = analytics;
+        reply =
+          `**Store Overview**\n\n` +
+          `• **Active SKUs**: ${summary.totalProducts}\n` +
+          `• **Out of Stock**: ${summary.outOfStockCount}\n` +
+          `• **Low Stock Alerts**: ${summary.lowStockCount}\n` +
+          `• **High-Priority Pricing Actions**: ${summary.priceOptimizationCount}\n` +
+          `• **Top Category**: ${summary.upcomingTopCategory.name}\n` +
+          `  _${summary.upcomingTopCategory.reason}_\n\n` +
+          `Ask for **low stock**, **out of stock**, or **pricing suggestions** for details.`;
         action = 'OPEN_ANALYTICS';
+        adminPanel = { type: 'overview', summary: analytics.summary };
+        break;
+      }
+
+      case 'admin_inventory_status': {
+        const analytics = buildInventoryAnalytics();
+        const { summary } = analytics;
+        reply =
+          `**Live Inventory Status**\n\n` +
+          `• In catalog: **${summary.totalProducts}** products\n` +
+          `• Out of stock: **${summary.outOfStockCount}**\n` +
+          `• Low stock (≤15 units): **${summary.lowStockCount}**\n` +
+          `• Critical / high stock risk: **${summary.stockoutRiskCount}**\n` +
+          `• Pricing optimizations: **${summary.priceOptimizationCount}**`;
+        adminPanel = {
+          type: 'inventory',
+          outOfStock: analytics.outOfStock,
+          stockRisks: analytics.stockRisks,
+        };
+        break;
+      }
+
+      case 'admin_out_of_stock': {
+        const analytics = buildInventoryAnalytics();
+        reply =
+          `**Out of Stock Items** (${analytics.outOfStock.length})\n\n` +
+          formatStockLines(analytics.outOfStock, '✅ Great news — no products are completely out of stock.');
+        action = 'ADMIN_STOCK_PANEL';
+        adminPanel = { type: 'outOfStock', outOfStock: analytics.outOfStock, stockRisks: [] };
+        products = analytics.outOfStock.slice(0, 5).map((p) => dbService.findById('products', p.id) || p);
         break;
       }
 
       case 'admin_analytics_stock': {
-        const allProds = dbService.find('products') || [];
-        const criticalItem = allProds.find(p => String(p.id) === '8' || p.stock <= 10) || allProds[0];
-        reply = `**⚡ Critical Stockout Velocity Alert**\n\n` +
-                `**${criticalItem.name}** (${criticalItem.brand})\n` +
-                `• **Current Stock**: ${criticalItem.stock} units remaining\n` +
-                `• **Exhaustion Forecast**: Est. 3 Days Left at current velocity\n\n` +
-                `**AI Suggestion**: Immediate reorder of 50 units recommended to avoid stockout.`;
-        action = 'VIEW_STOCK_RISK';
-        products = [criticalItem];
+        const analytics = buildInventoryAnalytics();
+        const combined = [...analytics.outOfStock, ...analytics.stockRisks];
+        reply =
+          `**Low Stock & Reorder Alerts** (${analytics.stockRisks.length} low · ${analytics.outOfStock.length} out)\n\n` +
+          (analytics.outOfStock.length
+            ? `**Out of stock:**\n${formatStockLines(analytics.outOfStock, '')}\n\n`
+            : '') +
+          `**Running low:**\n` +
+          formatStockLines(analytics.stockRisks, '✅ No low-stock alerts — inventory levels are healthy.');
+        action = 'ADMIN_STOCK_PANEL';
+        adminPanel = {
+          type: 'stock',
+          outOfStock: analytics.outOfStock,
+          stockRisks: analytics.stockRisks,
+        };
+        products = combined.slice(0, 5).map((p) => dbService.findById('products', p.id) || p);
         break;
       }
 
       case 'admin_analytics_pricing': {
-        const allProds = dbService.find('products') || [];
-        const targetItem = allProds.find(p => String(p.id) === '2' || p.name.toLowerCase().includes('parisienne')) || allProds[1] || allProds[0];
-        reply = `**🎯 Price Elasticity & Sweet Spot Suggestion**\n\n` +
-                `**${targetItem.name}** (${targetItem.brand})\n` +
-                `• **Current Price**: $${targetItem.price}\n` +
-                `• **Cart Abandonment**: +18% due to pricing barrier\n` +
-                `• **AI Optimal Sweet Spot**: **$215**\n\n` +
-                `Lowering price to $215 is modeled to boost weekly conversion volume by 38%.\n\n` +
-                `Type *"Apply price drop for Parisienne to 215"* to execute this change instantly.`;
-        action = 'VIEW_PRICING_SUGGESTION';
-        products = [targetItem];
+        const analytics = buildInventoryAnalytics();
+        const top = analytics.pricingSuggestions.filter((p) => p.urgency === 'Critical' || p.urgency === 'High');
+        const list = top.length ? top : analytics.pricingSuggestions;
+        reply =
+          `**AI Pricing Optimization** (${list.length} recommendations)\n\n` +
+          formatPricingLines(list) +
+          `\n\nTap **Apply** below or say: _Apply price drop for [product] to [price]_`;
+        action = 'ADMIN_PRICING_PANEL';
+        adminPanel = { type: 'pricing', pricingSuggestions: list.slice(0, 8) };
+        products = list.slice(0, 3).map((p) => dbService.findById('products', p.id) || p);
+        break;
+      }
+
+      case 'admin_full_report': {
+        const analytics = buildInventoryAnalytics();
+        const { summary } = analytics;
+        const topPricing = analytics.pricingSuggestions.filter((p) => p.urgency === 'Critical' || p.urgency === 'High').slice(0, 4);
+        reply =
+          `**Full AI Inventory Report**\n\n` +
+          `**Summary**\n` +
+          `• SKUs: ${summary.totalProducts} | Out of stock: ${summary.outOfStockCount} | Low stock: ${summary.lowStockCount}\n` +
+          `• Pricing actions: ${summary.priceOptimizationCount} | Top category: ${summary.upcomingTopCategory.name}\n\n` +
+          `**Out of Stock**\n${formatStockLines(analytics.outOfStock, 'None')}\n\n` +
+          `**Low Stock**\n${formatStockLines(analytics.stockRisks, 'None')}\n\n` +
+          `**Top Pricing Moves**\n${formatPricingLines(topPricing)}`;
+        action = 'OPEN_ANALYTICS';
+        adminPanel = {
+          type: 'full',
+          summary: analytics.summary,
+          outOfStock: analytics.outOfStock,
+          stockRisks: analytics.stockRisks,
+          pricingSuggestions: topPricing,
+        };
         break;
       }
 
       case 'admin_apply_price': {
         const allProds = dbService.find('products') || [];
-        const targetItem = allProds.find(p => String(p.id) === '2' || p.name.toLowerCase().includes('parisienne')) || allProds[0];
-        
-        let newP = 215;
-        const matchNum = message.match(/\b(\d{2,4})\b/);
-        if (matchNum) {
-          newP = Number(matchNum[1]);
+        const targetItem = findProductForPriceChange(message, allProds);
+        if (!targetItem) {
+          reply = 'No product found to update. Try: _Apply price drop for Parisienne to 215_';
+          break;
         }
-        
+
+        const analyticsForPrice = buildInventoryAnalytics();
+        const priceHint = analyticsForPrice.pricingSuggestions.find(
+          (p) => String(p.id) === String(targetItem.id || targetItem._id)
+        );
+        let newP = priceHint?.suggestedPrice || Math.round(targetItem.price * 0.9);
+        const matchNum = message.match(/\b(\d{2,4})\b/);
+        if (matchNum) newP = Number(matchNum[1]);
+
         const updated = dbService.update('products', targetItem.id || targetItem._id, { price: newP });
-        
-        reply = `**⚡ Autonomous Execution Confirmed**\n\n` +
-                `I have successfully updated the price of **${updated ? updated.name : targetItem.name}** to **$${newP}** in the live database!\n\n` +
-                `New price elasticity conversion tracking activated.`;
+
+        reply =
+          `**Price Updated**\n\n` +
+          `**${updated ? updated.name : targetItem.name}** is now **$${newP}** in your live catalog.`;
         action = 'PRICE_UPDATED';
         if (updated) products = [updated];
         break;
@@ -293,7 +432,7 @@ const handleChatRequest = async (req, res) => {
         break;
     }
 
-    res.status(200).json({ reply, action, actionProduct, products });
+    res.status(200).json({ reply, action, actionProduct, products, adminPanel });
   } catch (error) {
     console.error('AI Error:', error);
     res.status(500).json({ reply: "I'm having trouble thinking right now. Please try again soon!" });
@@ -350,168 +489,8 @@ const generateSEO = async (req, res) => {
  */
 const getInventoryAnalytics = async (req, res) => {
   try {
-    const products = dbService.find('products') || [];
-    const orders = dbService.find('orders') || [];
-
-    // Calculate sales counts from actual order history
-    const salesByProduct = {};
-    const salesByCategory = {
-      Handbags: { count: 0, revenue: 0, momentum: 88, trend: '+28.4%', upcomingDemand: 'Surging' },
-      Backpacks: { count: 0, revenue: 0, momentum: 74, trend: '+14.2%', upcomingDemand: 'Steady Growth' },
-    };
-
-    orders.forEach(order => {
-      if (order.orderItems && Array.isArray(order.orderItems)) {
-        order.orderItems.forEach(item => {
-          const qty = item.qty || item.quantity || 1;
-          const price = item.price || 0;
-          salesByProduct[item.id] = (salesByProduct[item.id] || 0) + qty;
-          
-          const cat = item.category || 'Handbags';
-          if (!salesByCategory[cat]) {
-            salesByCategory[cat] = { count: 0, revenue: 0, momentum: 65, trend: '+8.5%', upcomingDemand: 'Stable' };
-          }
-          salesByCategory[cat].count += qty;
-          salesByCategory[cat].revenue += qty * price;
-        });
-      }
-    });
-
-    // Determine upcoming top selling category
-    let topCategory = { name: 'Handbags', reason: 'High seasonal interest and 42% surge in premium leather tote search volume.' };
-    const catEntries = Object.entries(salesByCategory);
-    if (catEntries.length > 0) {
-      catEntries.sort((a, b) => b[1].revenue - a[1].revenue);
-      if (catEntries[0][0] === 'Backpacks') {
-        topCategory = { name: 'Backpacks', reason: 'Urban and tech backpack lines showing a 35% week-over-week velocity spike.' };
-      }
-    }
-
-    // Identify stockout risks (Low stock or high velocity)
-    const stockRisks = products
-      .filter(p => p.stock <= 15)
-      .map(p => {
-        const sold = salesByProduct[p.id] || 1;
-        // Estimate daily velocity
-        const dailyVelocity = (sold / 7).toFixed(1);
-        const estDaysLeft = Math.max(1, Math.round(p.stock / (dailyVelocity > 0 ? dailyVelocity : 0.5)));
-        
-        let riskLevel = 'Moderate';
-        let badgeColor = '#f59e0b';
-        if (estDaysLeft <= 3 || p.stock <= 8) {
-          riskLevel = 'Critical';
-          badgeColor = '#ef4444';
-        } else if (estDaysLeft <= 7) {
-          riskLevel = 'High';
-          badgeColor = '#f97316';
-        }
-
-        return {
-          id: p.id,
-          name: p.name,
-          category: p.category,
-          stock: p.stock,
-          image: p.image,
-          velocity: `${dailyVelocity} units/day`,
-          estDaysLeft,
-          riskLevel,
-          badgeColor,
-          aiRecommendation: `Reorder recommended immediately. Stock exhaustion expected in ${estDaysLeft} days at current demand trajectory.`
-        };
-      })
-      .sort((a, b) => a.estDaysLeft - b.estDaysLeft);
-
-    // Identify price escalation and suggest optimization
-    // We analyze products and construct historical pricing insights
-    const pricingSuggestions = products.map(p => {
-      // Simulate historical pricing analysis
-      // E.g. Parisienne Burgundy ($240) had a price hike from $210
-      let histPrice = Math.round(p.price * 0.85);
-      let priceChange = `+17.6%`;
-      let salesDrop = `-24.3%`;
-      let suggestedPrice = Math.round(p.price * 0.90); // Suggest 10% drop
-      let rationale = `Price increased from $${histPrice} to $${p.price} over 90 days. Sales velocity slowed by ${salesDrop}. AI Suggestion: Drop price to $${suggestedPrice} to maximize elasticity and recover $1,450/week in conversion revenue.`;
-      let urgency = 'High';
-
-      if (p.id === '2') { // Parisienne Burgundy
-        histPrice = 205;
-        suggestedPrice = 215;
-        rationale = `Premium pricing barrier detected at $240. Cart abandonment rate is up 18%. Lowering price to $215 is modeled to boost weekly sales by 38%, maximizing gross margins.`;
-        urgency = 'Critical';
-      } else if (p.id === '8') { // Arctic Voyager
-        histPrice = 180;
-        suggestedPrice = 189;
-        rationale = `Competitor benchmarking indicates average market price is $190. Reducing price from $210 to $189 aligns with optimal buyer willingness-to-pay threshold.`;
-        urgency = 'High';
-      } else if (p.id === '1') { // Midnight Executive
-        histPrice = 160;
-        suggestedPrice = 169;
-        rationale = `High traffic but lower add-to-cart ratio at $185. A minor adjustment to $169 will trigger psychological threshold conversions.`;
-        urgency = 'Medium';
-      } else {
-        histPrice = Math.round(p.price * 0.92);
-        priceChange = `+8.7%`;
-        salesDrop = `-12.0%`;
-        suggestedPrice = Math.round(p.price * 0.95);
-        rationale = `Stable pricing trajectory. Optional 5% promotional markdown to $${suggestedPrice} recommended for upcoming weekend flash sale.`;
-        urgency = 'Low';
-      }
-
-      return {
-        id: p.id,
-        name: p.name,
-        category: p.category,
-        currentPrice: p.price,
-        historicalPrice: histPrice,
-        priceChange,
-        salesImpact: salesDrop,
-        suggestedPrice,
-        rationale,
-        urgency,
-        image: p.image
-      };
-    }).sort((a, b) => (b.urgency === 'Critical' ? 1 : -1)); // Sort critical first
-
-    // Graphical Data for UI rendering
-    const graphicalData = {
-      demandTrends: [
-        { day: 'Mon', Handbags: 12, Backpacks: 8, Tech: 5 },
-        { day: 'Tue', Handbags: 15, Backpacks: 10, Tech: 7 },
-        { day: 'Wed', Handbags: 18, Backpacks: 14, Tech: 8 },
-        { day: 'Thu', Handbags: 24, Backpacks: 12, Tech: 10 },
-        { day: 'Fri', Handbags: 32, Backpacks: 22, Tech: 15 },
-        { day: 'Sat', Handbags: 45, Backpacks: 28, Tech: 20 },
-        { day: 'Sun (Est)', Handbags: 52, Backpacks: 35, Tech: 25 },
-      ],
-      categoryShare: [
-        { name: 'Handbags', share: 55, color: '#c5a059' },
-        { name: 'Backpacks', share: 30, color: '#6366f1' },
-        { name: 'Urban & Tech', share: 15, color: '#10b981' }
-      ],
-      priceElasticityCurve: [
-        { pricePoint: '$160', projectedVolume: 120, revenue: 19200 },
-        { pricePoint: '$180', projectedVolume: 105, revenue: 18900 },
-        { pricePoint: '$200', projectedVolume: 90, revenue: 18000 },
-        { pricePoint: '$215 (Optimal)', projectedVolume: 85, revenue: 18275 },
-        { pricePoint: '$240 (Current)', projectedVolume: 60, revenue: 14400 },
-      ]
-    };
-
-    res.status(200).json({
-      success: true,
-      timestamp: new Date().toISOString(),
-      summary: {
-        totalProducts: products.length,
-        stockoutRiskCount: stockRisks.filter(r => r.riskLevel === 'Critical' || r.riskLevel === 'High').length,
-        priceOptimizationCount: pricingSuggestions.filter(p => p.urgency === 'Critical' || p.urgency === 'High').length,
-        upcomingTopCategory: topCategory
-      },
-      categories: salesByCategory,
-      stockRisks,
-      pricingSuggestions,
-      graphicalData
-    });
-
+    const analytics = buildInventoryAnalytics();
+    res.status(200).json(analytics);
   } catch (error) {
     console.error('AI Analytics Error:', error);
     res.status(500).json({ success: false, message: "Failed to generate AI Inventory Analytics" });

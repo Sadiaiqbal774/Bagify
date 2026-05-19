@@ -40,7 +40,7 @@ const About = () => {
       </section>
 
       {/* Philosophy Section */}
-      <section style={{ padding: '10rem 0' }}>
+      <section className="store-section">
         <div className="container">
           <div className="about-philosophy-grid">
             <div className="reveal" ref={el => revealRefs.current[2] = el}>
@@ -65,7 +65,7 @@ const About = () => {
       </section>
 
       {/* Values Grid */}
-      <section style={{ padding: '10rem 0', backgroundColor: 'var(--bg-secondary)' }}>
+      <section className="store-section store-section-muted">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '8rem' }} className="reveal" ref={el => revealRefs.current[4] = el}>
             <h2 style={{ fontSize: '3.5rem' }}>The Four Pillars</h2>

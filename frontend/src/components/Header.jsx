@@ -141,6 +141,9 @@ const Header = () => {
              <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>Our Story</Link>
              <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
              <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)}>Bag ({cartCount})</Link>
+             {user && user.role === 'admin' && (
+               <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>Admin</Link>
+             )}
            </nav>
         </div>
       )}

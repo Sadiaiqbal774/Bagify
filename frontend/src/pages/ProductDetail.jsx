@@ -51,7 +51,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '6rem 0' }}>
+    <div className="container page-top-padding product-detail-page">
       <SEO title={product.name} description={product.description} />
       
       <Link to="/products" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '3rem', color: 'var(--text-secondary)' }}>

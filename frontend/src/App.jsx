@@ -25,7 +25,7 @@ import ProductDetail from './pages/ProductDetail';
 import AdminProductForm from './pages/AdminProductForm';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 
-import Chatbot from './components/Chatbot';
+import ScrollToTop from './components/ScrollToTop';
 import './App.css';
 
 function App() {
@@ -33,6 +33,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* User Facing Routes */}
         <Route path="/" element={<UserLayout />}>
@@ -62,7 +63,6 @@ function App() {
 
         {/* Catch-all/404 handling can go here */}
       </Routes>
-      <Chatbot />
     </Router>
   );
 }

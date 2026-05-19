@@ -8,25 +8,35 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user'); // New role state
+  const [role, setRole] = useState('user');
+  const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       await axios.post('/api/auth/register', { name, email, password, role });
       await login(email, password);
       navigate('/');
     } catch (err) {
-      console.error('Registration failed');
+      const msg = err.response?.data?.message;
+      if (msg === 'User already exists') {
+        setError('An account with this email already exists. Please sign in instead.');
+      } else if (msg) {
+        setError(msg);
+      } else {
+        setError('We could not complete your registration. Please try again.');
+      }
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem', background: '#fff', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-lg)' }}>
+    <div className="auth-page-wrap">
       <SEO title="Register" />
       <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Create Account</h2>
+      {error && <p style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
           <label>Account Type</label>

@@ -50,7 +50,7 @@ const Products = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('active');
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     revealRefs.current.forEach(ref => { if (ref) observer.observe(ref); });
     return () => observer.disconnect();
   }, [filteredProducts, loading]);
@@ -61,15 +61,15 @@ const Products = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '8rem 0' }}>
+    <div className="container page-top-padding products-page">
       <SEO title="Collection" description="Browse our premium selection of handcrafted bags." />
       
-      <div style={{ marginBottom: '6rem', textAlign: 'center' }} className="reveal">
-        <span style={{ textTransform: 'uppercase', letterSpacing: '0.3em', fontSize: '0.8rem', color: 'var(--accent-gold)', fontWeight: 700 }}>Our Artifacts</span>
-        <h1 style={{ marginTop: '1.5rem', fontSize: '4.5rem' }}>The Collection</h1>
+      <div className="page-hero-block reveal reveal-visible">
+        <span className="page-eyebrow">Our Artifacts</span>
+        <h1 className="page-title">The Collection</h1>
       </div>
 
-      <div className="filter-bar reveal">
+      <div className="filter-bar reveal reveal-visible">
         <div className="filter-group">
           {['All', 'Backpacks', 'Handbags'].map(cat => (
             <button 

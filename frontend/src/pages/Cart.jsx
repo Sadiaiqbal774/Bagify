@@ -56,7 +56,7 @@ const Cart = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '4rem auto' }}>
+    <div className="container page-top-padding cart-page">
       <SEO title="Shopping Cart" />
       <Link to="/products" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
         <ArrowLeft size={18} /> Continue Shopping
