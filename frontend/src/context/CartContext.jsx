@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = (product, qty = 1) => {
-    const existItem = cartItems.find((x) => x.id === product.id || x._id === product._id);
+    const existItem = cartItems.find((x) => String(x.id || x._id) === String(product.id || product._id));
     if (existItem) {
       setCartItems(cartItems.map((x) => (String(x.id || x._id) === String(product.id || product._id) ? { ...existItem, qty: existItem.qty + qty } : x)));
     } else {
@@ -44,6 +44,17 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (id) => {
     setCartItems(cartItems.filter((x) => String(x.id || x._id) !== String(id)));
+  };
+
+  const updateCartQty = (id, qty) => {
+    const nextQty = Math.max(1, Number(qty) || 1);
+    setCartItems((items) =>
+      items.map((item) => {
+        if (String(item.id || item._id) !== String(id)) return item;
+        const maxQty = Number(item.stock) > 0 ? Number(item.stock) : nextQty;
+        return { ...item, qty: Math.min(nextQty, maxQty) };
+      })
+    );
   };
 
   const toggleWishlist = (product) => {
@@ -58,7 +69,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider value={{ 
       cartItems, wishlist, isCartOpen, 
-      addToCart, removeFromCart, toggleWishlist, 
+      addToCart, removeFromCart, updateCartQty, toggleWishlist, 
       setCartItems, toggleCart 
     }}>
       {children}

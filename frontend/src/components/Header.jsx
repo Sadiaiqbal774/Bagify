@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User as UserIcon, Search, Menu, X, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShoppingBag, User as UserIcon, Search, Menu, X } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 
@@ -11,32 +11,66 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
-  const navigate = useNavigate();
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState('');
 
   const cartCount = cartItems ? cartItems.reduce((acc, item) => acc + item.qty, 0) : 0;
+  const closeSearch = useCallback(() => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    setDebouncedSearchQuery('');
+    setSearchError('');
+  }, []);
 
   useEffect(() => {
     const fetchAll = async () => {
-      const { data } = await axios.get('/api/products');
-      setAllProducts(data);
+      setIsSearchLoading(true);
+      setSearchError('');
+      try {
+        const { data } = await axios.get('/api/products');
+        setAllProducts(Array.isArray(data) ? data : data.products || []);
+      } catch (error) {
+        setAllProducts([]);
+        setSearchError('Search is unavailable right now. Please try again shortly.');
+      } finally {
+        setIsSearchLoading(false);
+      }
     };
     if (isSearchOpen) fetchAll();
   }, [isSearchOpen]);
 
   useEffect(() => {
-    if (searchQuery.trim() === '') {
+    const timeout = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery.trim());
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (debouncedSearchQuery === '') {
       setSuggestions(allProducts.slice(0, 3)); // Trending
     } else {
+      const normalizedQuery = debouncedSearchQuery.toLowerCase();
       const filtered = allProducts.filter(p => 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+        p.name?.toLowerCase().includes(normalizedQuery) ||
+        p.category?.toLowerCase().includes(normalizedQuery)
       );
       setSuggestions(filtered.slice(0, 5));
     }
-  }, [searchQuery, allProducts]);
-  
+  }, [debouncedSearchQuery, allProducts]);
+
+  useEffect(() => {
+    if (!isSearchOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') closeSearch();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isSearchOpen, closeSearch]);
+
 
   return (
     <header className="main-header">
@@ -96,19 +130,29 @@ const Header = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus 
               />
-              <button onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}><X size={24} /></button>
+              <button onClick={closeSearch}><X size={24} /></button>
             </div>
 
             <div className="search-results-area" style={{ marginTop: '4rem' }}>
               <h4 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--text-tertiary)', marginBottom: '2rem' }}>
-                {searchQuery ? 'Search Results' : 'Trending Now'}
+                {debouncedSearchQuery ? 'Search Results' : 'Trending Now'}
               </h4>
-              <div style={{ display: 'grid', gap: '2rem' }}>
-                {suggestions.map(p => (
+              {isSearchLoading ? (
+                <p style={{ color: 'var(--text-tertiary)', fontSize: '0.95rem' }}>Curating matches...</p>
+              ) : searchError ? (
+                <p style={{ color: '#ef4444', fontSize: '0.95rem' }}>{searchError}</p>
+              ) : debouncedSearchQuery && suggestions.length === 0 ? (
+                <div style={{ padding: '2rem 0', borderTop: '1px solid var(--border-light)' }}>
+                  <h5 style={{ fontSize: '1rem', marginBottom: '0.5rem', textTransform: 'none', letterSpacing: 0 }}>No matching pieces found.</h5>
+                  <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>Try a category like backpacks or handbags.</p>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gap: '2rem' }}>
+                  {suggestions.map(p => (
                   <Link 
                     key={p.id || p._id} 
                     to={`/product/${p.id || p._id}`} 
-                    onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
+                    onClick={closeSearch}
                     style={{ display: 'flex', alignItems: 'center', gap: '2rem', textDecoration: 'none', color: 'inherit' }}
                   >
                     <div style={{ width: '60px', height: '70px', background: '#f5f5f5', borderRadius: '4px', overflow: 'hidden' }}>
@@ -119,8 +163,9 @@ const Header = () => {
                       <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{p.category} — ${p.price}</p>
                     </div>
                   </Link>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

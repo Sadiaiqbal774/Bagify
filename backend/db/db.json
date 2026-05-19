@@ -824,6 +824,92 @@
       "_id": "1779218943829",
       "id": "1779218943829",
       "updatedAt": "2026-05-19T19:29:03.829Z"
+    },
+    {
+      "user": "guest_1779223657026",
+      "userEmail": "guest@bagify.com",
+      "orderItems": [
+        {
+          "id": "7",
+          "name": "Capri Leather Clutch",
+          "price": 81,
+          "description": "Sleek and minimalist, perfect for evening artifacts.",
+          "category": "Handbags",
+          "brand": "Maison Luxe",
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=800",
+          "stock": 14,
+          "slug": "capri-leather-clutch",
+          "updatedAt": "2026-05-17T16:41:58.762Z",
+          "qty": 1
+        }
+      ],
+      "totalPrice": 81,
+      "paymentMethod": "Cash on Delivery",
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-19T20:47:37.029Z",
+      "_id": "1779223657029",
+      "id": "1779223657029",
+      "updatedAt": "2026-05-19T20:47:37.029Z"
+    },
+    {
+      "orderNumber": "ORD-7002",
+      "user": "1775834183603",
+      "userEmail": "iqbalsadia808@gmail.com",
+      "orderItems": [
+        {
+          "id": "2",
+          "name": "Parisienne Burgundy Handbag",
+          "image": "/images/item2.png",
+          "category": "Handbags",
+          "price": 215,
+          "qty": 1
+        }
+      ],
+      "totalPrice": 215,
+      "paymentMethod": "Cash on Delivery",
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-19T20:55:22.038Z",
+      "_id": "1779224122038",
+      "id": "1779224122038",
+      "updatedAt": "2026-05-19T20:55:22.038Z"
+    },
+    {
+      "orderNumber": "ORD-6916",
+      "user": "1775834183603",
+      "userEmail": "iqbalsadia808@gmail.com",
+      "orderItems": [
+        {
+          "id": "5",
+          "name": "Sahara Suede Crossbody",
+          "image": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&q=80&w=800",
+          "category": "Handbags",
+          "price": 195,
+          "qty": 3
+        }
+      ],
+      "totalPrice": 585,
+      "paymentMethod": "Cash on Delivery",
+      "status": "Processing",
+      "timeline": [
+        "Ordered",
+        "Processing"
+      ],
+      "lastUpdate": "We have received your order and are preparing it for shipment.",
+      "createdAt": "2026-05-19T21:04:28.394Z",
+      "_id": "1779224668394",
+      "id": "1779224668394",
+      "updatedAt": "2026-05-19T21:04:28.394Z"
     }
   ],
   "faqs": [

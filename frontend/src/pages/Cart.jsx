@@ -3,12 +3,12 @@ import { CartContext } from '../context/CartContext';
 import { ToastContext } from '../context/ToastContext';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
-import { Trash2, ArrowRight, CreditCard, Truck, Lock, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Trash2, ArrowRight, CreditCard, Truck, Lock, ShieldCheck, ArrowLeft, Minus, Plus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, setCartItems } = useContext(CartContext);
+  const { cartItems, removeFromCart, updateCartQty, setCartItems } = useContext(CartContext);
   const { showToast } = useContext(ToastContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -78,7 +78,28 @@ const Cart = () => {
                 </div>
                 <div className="cart-item-info">
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem', fontWeight: 700 }}>{item.name}</h4>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>${item.price} • Qty: {item.qty}</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '0.9rem' }}>${item.price} each</p>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.8rem', border: '1px solid var(--border-color)', borderRadius: '999px', padding: '0.35rem 0.55rem', background: '#fff' }}>
+                    <button
+                      type="button"
+                      onClick={() => updateCartQty(item.id || item._id, item.qty - 1)}
+                      disabled={item.qty <= 1}
+                      aria-label={`Decrease quantity of ${item.name}`}
+                      style={{ width: '30px', height: '30px', borderRadius: '50%', border: 'none', background: item.qty <= 1 ? '#f3f3f3' : '#000', color: item.qty <= 1 ? '#aaa' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: item.qty <= 1 ? 'not-allowed' : 'pointer', transition: '0.2s' }}
+                    >
+                      <Minus size={14} />
+                    </button>
+                    <span style={{ minWidth: '22px', textAlign: 'center', fontWeight: 800, fontSize: '0.95rem' }}>{item.qty}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateCartQty(item.id || item._id, item.qty + 1)}
+                      disabled={Number(item.stock) > 0 && item.qty >= Number(item.stock)}
+                      aria-label={`Increase quantity of ${item.name}`}
+                      style={{ width: '30px', height: '30px', borderRadius: '50%', border: 'none', background: Number(item.stock) > 0 && item.qty >= Number(item.stock) ? '#f3f3f3' : '#000', color: Number(item.stock) > 0 && item.qty >= Number(item.stock) ? '#aaa' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: Number(item.stock) > 0 && item.qty >= Number(item.stock) ? 'not-allowed' : 'pointer', transition: '0.2s' }}
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
                 </div>
                 <div className="cart-item-total">${(item.price * item.qty).toFixed(2)}</div>
                 <button 

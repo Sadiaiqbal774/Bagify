@@ -4,20 +4,55 @@ const dbService = require('../services/dbService');
 // @route   POST /api/orders
 // @access  Private
 exports.addOrderItems = async (req, res) => {
-  const { orderItems, totalPrice, paymentMethod } = req.body;
+  const { orderItems, paymentMethod } = req.body;
 
-  if (orderItems && orderItems.length === 0) {
+  if (!Array.isArray(orderItems) || orderItems.length === 0) {
     res.status(400).json({ message: 'No order items' });
     return;
   }
 
   try {
+    const products = dbService.find('products');
+    const validatedItems = [];
+    let serverTotal = 0;
+
+    for (const item of orderItems) {
+      const itemId = item.id || item._id;
+      const quantity = Number(item.qty);
+
+      if (!itemId || !Number.isInteger(quantity) || quantity < 1) {
+        return res.status(400).json({ message: 'Invalid order item quantity' });
+      }
+
+      const product = products.find((p) => String(p.id) === String(itemId) || String(p._id) === String(itemId));
+      if (!product) {
+        return res.status(400).json({ message: 'One or more products are no longer available' });
+      }
+
+      const price = Number(product.price);
+      if (!Number.isFinite(price) || price < 0) {
+        return res.status(400).json({ message: `Invalid price for ${product.name}` });
+      }
+
+      validatedItems.push({
+        id: product.id,
+        _id: product._id,
+        name: product.name,
+        image: product.image,
+        category: product.category,
+        price,
+        qty: quantity,
+      });
+      serverTotal += price * quantity;
+    }
+
     const orderStr = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
     const order = dbService.create('orders', {
+      orderNumber: orderStr,
       user: req.user ? (req.user.id || req.user._id || 'guest') : ('guest_' + Date.now()),
       userEmail: req.user ? (req.user.email || 'guest@bagify.com') : 'guest@bagify.com',
-      orderItems,
-      totalPrice,
+      orderItems: validatedItems,
+      totalPrice: Number(serverTotal.toFixed(2)),
       paymentMethod: paymentMethod || 'Credit / Debit Card',
       status: 'Processing',
       timeline: ['Ordered', 'Processing'],
